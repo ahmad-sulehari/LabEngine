@@ -49,7 +49,7 @@
 	opacity: 0.8;
 }
 .tab-group .active a {
-	background-image: linear-gradient(to right, #238a91, green);
+	background-image: linear-gradient(to right, #238a91, red);
 	color: #fff;
 }
 .tab-content > div:last-child {
@@ -141,7 +141,7 @@ textarea {
 	font-weight: 600;
 	text-transform: uppercase;
 	letter-spacing: 0.1em;
-	background-image: linear-gradient(to right, black, green);
+	background-image: linear-gradient(to right, black, red);
 	color: #fff;
 	transition: all 0.5s ease;
 	-webkit-appearance: none;
@@ -164,12 +164,12 @@ textarea {
 	font-family: 'Rubik', sans-serif;
 	font-weight: bold;
 	margin-bottom: 30px;
-	color: green;
+	color: purple;
 }
 
 
 body {
-  background: url('C:/Users/mahma/Git repositories/LabEngine/LabEngine/img/login_bg.jpg') no-repeat center center fixed;
+  background: url('../img/login_bg.jpg') no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
