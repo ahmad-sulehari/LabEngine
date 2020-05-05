@@ -1,5 +1,4 @@
 from flask import Flask,render_template,url_for,request,redirect
-
 app = Flask(__name__)
 
 
@@ -23,6 +22,11 @@ def patientProfile():
 def dataEntry():
     if request.method == 'POST':
         return render_template('Patient_Data_Entry.html')
+
+
+@app.route("/worker")
+def workerProfile():
+    return render_template('Worker_Profile.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
