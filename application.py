@@ -1,5 +1,7 @@
+
 from flask import Flask,render_template,url_for,request,redirect, session
 from DBHandler import DBHandler
+
 app = Flask(__name__)
 app.config.from_object('config')
 app.secret_key = app.config["SECRET_KEY"]
@@ -60,6 +62,16 @@ def showReport():
 def dataEntry():
     if request.method == 'POST':
         return render_template('Patient_Data_Entry.html')
+
+
+@app.route("/worker")
+def workerProfile():
+    return render_template('Worker_Profile.html')
+
+@app.route("/patientRecord")
+def patientRecord():
+    return render_template('patientRecord.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
