@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lab Engine</title>
+  <meta name="description" content="Free Bootstrap Theme by BootstrapMade.com">
+  <meta name="keywords" content="free website templates, free bootstrap themes, free template, free bootstrap, free website template">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+   
+    <script type="text/javascript" src="../js/bootstrap.min.js"></script>
+    
+  <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans|Raleway|Candal">
+  <link rel="stylesheet" type="text/css" href="../static/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="../static/css/DeletePatientRecord.css">
+  <link rel="icon" type="img/ico" href="../static/img/128.ico">
+  
+    <link rel="stylesheet" type="text/css" id="applicationStylesheet" href="../static/css/tables.css"/>
+    <script src="jquery-3.4.1.min.js"></script>
+     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+
+    <script>
+    $(document).ready(function () {
+        $('#myTable').DataTable();
+    })
+
+</script>
+    
+  <!-- =======================================================
+    Theme Name: Lab Engine
+  ======================================================= -->
+</head>
+    <body>
+        <section id="banner" class="banner">
+    <div class="bg-color">
+      <nav class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+          <div class="col-md-12">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+				        <span class="icon-bar"></span>
+				        <span class="icon-bar"></span>
+				        <span class="icon-bar"></span>
+				      </button>
+              <a class="navbar-brand" href="#"><img src="../static/img/Logo for DarkBackground_version2.png" class="img-responsive" style="width: 120px; margin-top: -16px;"></a>
+            </div>
+              
+              
+              
+            <div class="collapse navbar-collapse navbar-right" id="myNavbar">
+              <ul class="nav navbar">
+                <li class="active"><a href="index.html" style="text-decoration: none; color: white">Home</a></li>
+   <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" style="text-decoration: none; color: white" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Reports
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="#">REPORTS RECORD</a>
+          <a class="dropdown-item" href="#">UPDATE RECORD</a>
+          <a class="dropdown-item" href="#">DELETE RECORD</a>
+        </div>
+      </li>
+                  
+                 <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" style="text-decoration: none; color: white" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" >Patient</a>
+    <div class="dropdown-menu">
+      <a class="dropdown-item" href="#">Patient Records</a>
+      <a class="dropdown-item" href="#">Update Records</a>
+      <a class="dropdown-item" href="DeletePatientRecord.html">Delete Reports</a>
+      <div class="dropdown-divider"></div>
+ </div> </li>  
+                 <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" style="text-decoration: none; color: white" data-toggle="dropdown" href="staff.html" role="button" aria-haspopup="true" aria-expanded="false">
+        Staff</a>
+      <div class="dropdown-menu">
+      <a class="dropdown-item" href="#">Staff Record</a>
+      <a class="dropdown-item" href="#">Update Staff</a>
+      <a class="dropdown-item" href="#">Add Staff</a>
+      <div class="dropdown-divider"></div>
+        
+        </div> </li>
+                  <li class=""><a href="stock.html" style="text-decoration: none; color: white">Stock</a></li>
+                 
+                <li class=""><a href="Accounts.html" style="text-decoration: none; color: white">Accounts</a></li>
+                  <li class=""><a href="feedback.html" style="text-decoration: none; color: white">FEedBack</a></li>
+                <li class="" style="background-color:cadetblue"><a href="{{ url_for('login') }} "style="text-decoration: none; color: white">Logout</a></li>
+
+              </ul>
+                
+
+            </div>
+          </div>
+        </div>
+      </nav> 
+        <br>
+        <div class="container" style="padding-top: 150px">
+                    <h1 style="text-align:lef;font-family: georgia; color: whitesmoke; font-size: 50px"><b>Delete Record</b></h1>
+<div class="container" style="  margin-bottom: 5vw;
+  padding: 20px;
+  max-width: 1100px;
+  height: 100%;
+  background-color: rgb(198, 242, 242);
+  border: 10px solid rgba(12, 184, 182, 0.91);
+  border-radius: 20px;">
+  <h1 style="text-align: center;"><b>Delete Patient Record</b></h1>
+
+<p style="text-align: center;font-size: 20px;">Please Fill Out the Following form to Delete a Patient Record</p>
+  <form action="/deleteUser" onsubmit="return confirm('Are You Sure You Want to Delete the User and All its Data?');" method="post" class="needs-validation" novalidate>
+    <div class="form-group">
+      <label for="firstName" style="color: black"><b>Patient Name</b></label>
+      <input type="text" class="form-control" pattern="[a-zA-Z ]+"  maxlength="50" id="firstName" placeholder="Enter Patient Name" name="pName" required>
+      <div class="valid-feedback">Valid.</div>
+      <div class="invalid-feedback">Please fill out this field Or Please Enter Alphabets and Spaces only</div>
+    </div>
+      <div class="form-group">
+      <label for="userID" style="color: black"><b>Enter Patient ID</b></label>
+      <input type="text" class="form-control" pattern="[a-zA-Z0-9-_.]+"  maxlength="50" id="userID" placeholder="Enter Patient ID" name="patientID" required>
+      <div class="valid-feedback">Valid.</div>
+      <div class="invalid-feedback">Please fill out this field Or Please Enter Valid Digits</div>
+    </div>
+      <div class="form-group">
+      <label for="pwd" style="color: black"><b>Enter Patient Password</b></label>
+      <input type="Password" class="form-control" pattern="[a-zA-Z0-9-_.]+"  maxlength="50" id="pwd" placeholder="Enter Password" name="pPassword" required>
+      <div class="valid-feedback">Valid.</div>
+      <div class="invalid-feedback">Please fill out this field Or Please Enter Valid Digits</div>
+    </div>
+
+    <div class="row">
+    <div class="col text-center">
+    <button type="submit" style="padding: 10px;text-align: center;width: 30%" class="btn btn-danger">Delete</button>
+    </div>
+  </div>
+    {% if error=='successfull' %}
+        <b><h6 style="color: green">User Deleted Successfully!</h6></b>
+    {% elif error=='unsuccessfull': %}
+        <b><h6 style="color: red">This User Does not Exist or Entered Data is False!</h6></b>
+    {% endif %}
+  </form>
+</div>
+
+
+            </div>
+            </div>
+      
+        </section>
+        
+        
+         <footer id="footer">
+    <div class="top-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-4 col-sm-4 marb20">
+            <div class="ftr-tle">
+              <h4 class="white no-padding">About Us</h4>
+            </div>
+            <div class="info-sec">
+              <p>Highly Cooperative staff that ensure quality of work.</p>
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-4 marb20">
+            <div class="ftr-tle">
+              <h4 class="white no-padding">Quick Links</h4>
+            </div>
+            <div class="info-sec">
+              <ul class="quick-info">
+                <li><a href="index.html"><i class="fa fa-circle"></i>Home</a></li>
+                <li><a href="#service"><i class="fa fa-circle"></i>Patient</a></li>
+                <li><a href="#contact"><i class="fa fa-circle"></i>Staff</a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-4 marb20">
+            <div class="ftr-tle">
+              <h4 class="white no-padding">Follow us</h4>
+            </div>
+            <div class="info-sec">
+              <ul class="social-icon">
+                <li class="bglight-blue"><i class="fa fa-facebook"></i></li>
+                <li class="bgred"><i class="fa fa-google-plus"></i></li>
+                <li class="bgdark-blue"><i class="fa fa-linkedin"></i></li>
+                <li class="bglight-blue"><i class="fa fa-twitter"></i></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-line">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 text-center">
+            © Copyright Engine Associates. All Rights Reserved
+            <div class="credits">
+
+              Designed by <a href="https://LabEngine.com/"> Lab Engine Production</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!--/ footer-->
+
+  <script src="js/jquery.min.js"></script>
+  <script src="js/jquery.easing.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/custom.js"></script>
+  <script src="contactform/contactform.js"></script>
+
+
+    </body>
+    
+    <script>
+
+
+$('#cnic').keydown(function(){
+
+  //allow  backspace, tab, ctrl+A, escape, carriage return
+  if (event.keyCode == 8 || event.keyCode == 9
+                    || event.keyCode == 27 || event.keyCode == 13
+                    || (event.keyCode == 65 && event.ctrlKey === true) )
+                        return;
+  if((event.keyCode < 48 || event.keyCode > 57))
+   event.preventDefault();
+
+  var length = $(this).val().length;
+
+  if(length == 5 || length == 13)
+   $(this).val($(this).val()+'-');
+
+ });
+// Disable form submissions if there are invalid fields
+(function() {
+  'use strict';
+  window.addEventListener('load', function() {
+    // Get the forms we want to add validation styles to
+    var forms = document.getElementsByClassName('needs-validation');
+    // Loop over them and prevent submission
+    var validation = Array.prototype.filter.call(forms, function(form) {
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  }, false);
+})();
+</script>
