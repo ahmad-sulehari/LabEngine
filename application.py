@@ -28,5 +28,10 @@ def dataEntry():
 def workerProfile():
     return render_template('Worker_Profile.html')
 
+@app.route("/patientRecord")
+def patientRecord():
+    return render_template('patientRecord.html')
+
+
 if __name__ == '__main__':
     app.run(debug=True)

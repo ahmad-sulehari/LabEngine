@@ -86,7 +86,15 @@
       <div class="dropdown-divider"></div>
         
         </div> </li>
-                  <li class=""><a href="stock.html" style="text-decoration: none; color: white">Stock</a></li>
+                    <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" style="text-decoration: none; color: white" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+        STOCK</a>
+      <div class="dropdown-menu">
+      <a class="dropdown-item" href="#">STOCK Record</a>
+      <a class="dropdown-item" href="#">Update STOCK</a>
+      <div class="dropdown-divider"></div>
+        
+        </div> </li>
                  
                 <li class=""><a href="Accounts.html" style="text-decoration: none; color: white">Accounts</a></li>
                   <li class=""><a href="feedback.html" style="text-decoration: none; color: white">FEedBack</a></li>
@@ -112,7 +120,7 @@
   <h1 style="text-align: center;"><b>Delete Patient Record</b></h1>
 
 <p style="text-align: center;font-size: 20px;">Please Fill Out the Following form to Delete a Patient Record</p>
-  <form action="/deleteUser" onsubmit="return confirm('Are You Sure You Want to Delete the User and All its Data?');" method="post" class="needs-validation" novalidate>
+  <form action="/deletePatient" onsubmit="return confirm('Are You Sure You Want to Delete the User and All its Data?');" method="post" class="needs-validation" novalidate>
     <div class="form-group">
       <label for="firstName" style="color: black"><b>Patient Name</b></label>
       <input type="text" class="form-control" pattern="[a-zA-Z ]+"  maxlength="50" id="firstName" placeholder="Enter Patient Name" name="pName" required>
@@ -120,7 +128,7 @@
       <div class="invalid-feedback">Please fill out this field Or Please Enter Alphabets and Spaces only</div>
     </div>
       <div class="form-group">
-      <label for="userID" style="color: black"><b>Enter Patient ID</b></label>
+      <label for="patientID" style="color: black"><b>Enter Patient ID</b></label>
       <input type="text" class="form-control" pattern="[a-zA-Z0-9-_.]+"  maxlength="50" id="userID" placeholder="Enter Patient ID" name="patientID" required>
       <div class="valid-feedback">Valid.</div>
       <div class="invalid-feedback">Please fill out this field Or Please Enter Valid Digits</div>
@@ -138,9 +146,9 @@
     </div>
   </div>
     {% if error=='successfull' %}
-        <b><h6 style="color: green">User Deleted Successfully!</h6></b>
+        <b><h6 style="color: green">Patient Record Deleted Successfully!</h6></b>
     {% elif error=='unsuccessfull': %}
-        <b><h6 style="color: red">This User Does not Exist or Entered Data is False!</h6></b>
+        <b><h6 style="color: red">This Patient Does not Exist or Entered Data is False!</h6></b>
     {% endif %}
   </form>
 </div>
