@@ -33,6 +33,13 @@ def new():
 def workerProfile():
     return render_template('Worker_Profile.html')
 
+<<<<<<< HEAD
+=======
+@app.route("/patientRecord")
+def patientRecord():
+    return render_template('patientRecord.html')
+
+>>>>>>> d762f9fab77713882f6f42a59aff94cad34fe670
 
 if __name__ == '__main__':
     app.run(debug=True)
