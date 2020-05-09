@@ -94,7 +94,7 @@ def userFeedBack():
 
 
 @app.route('/updateStock', methods=['POST'])
-def feedback():
+def updateStock():
     error = None
     db = None
     try:
@@ -131,7 +131,7 @@ def feedback():
         else:
             flash("Stock is not updated!")
             return redirect(url_for('admin'))
-        
+
     except Exception as e:
         print(e)
         error = str(e)
