@@ -2177,8 +2177,7 @@ JotForm.paymentExtrasOnTheFly([null,null,{"name":"submitForm","qid":"2","text":"
           </span>
         </label>
         <div id="cid_4" class="form-input jf-required">
-<input type="text" class="form-control" name = "newfield" placeholder ="Name"required>
-          <input type="text" id="input_4" name="q4_fullName4" data-type="input-textbox" class="form-textbox validate[required]" size="30" value="" placeholder=" " data-component="textbox" aria-labelledby="label_4" required="" />
+          <input type="text" id="input_4" name="pname" data-type="input-textbox" class="form-textbox validate[required]" size="30" value="" placeholder=" " data-component="textbox" aria-labelledby="label_4" required="" />
         </div>
       </li>
       <li class="form-line jf-required" data-type="control_dropdown" id="id_22">
@@ -2189,18 +2188,17 @@ JotForm.paymentExtrasOnTheFly([null,null,{"name":"submitForm","qid":"2","text":"
           </span>
         </label>
         <div id="cid_22" class="form-input jf-required">
-          <select class="form-dropdown validate[required]" id="input_22" name="q22_gender" style="width:150px" data-component="dropdown" required="" aria-labelledby="label_22">
+          <select class="form-dropdown validate[required]" id="input_22" name="pgender" style="width:150px" data-component="dropdown" required="" aria-labelledby="label_22">
             <option value="">  </option>
             <option value="Male"> Male </option>
             <option value="Female"> Female </option>
-            <option value="Not willing to Disclose"> Not willing to Disclose </option>
           </select>
         </div>
       </li>
       <li class="form-line" data-type="control_textbox" id="id_27">
-        <label class="form-label form-label-left form-label-auto" id="label_27" for="input_27"> Age </label>
+        <label class="form-label form-label-left form-label-auto" id="label_27" for="input_27"> Date of Birth </label>
         <div id="cid_27" class="form-input">
-          <input type="text" id="input_27" name="q27_age" data-type="input-textbox" class="form-textbox validate[Numeric]" size="2" value="" maxLength="2" data-component="textbox" aria-labelledby="label_27" />
+          <input type="date" id="input_27" name="DOB" data-type="input-textbox" class="form-textbox validate[Numeric]" size="2" value="" maxLength="2" data-component="textbox" aria-labelledby="label_27" />
         </div>
       </li>
       <li class="form-line jf-required" data-type="control_textbox" id="id_28">
@@ -2211,7 +2209,7 @@ JotForm.paymentExtrasOnTheFly([null,null,{"name":"submitForm","qid":"2","text":"
           </span>
         </label>
         <div id="cid_28" class="form-input jf-required">
-          <input type="text" id="input_28" name="q28_cnic" data-type="input-textbox" class="form-textbox validate[required, Fill Mask]" size="20" value="" data-component="textbox" aria-labelledby="label_28" required="" />
+          <input type="text" id="input_28" name="p_cnic" data-type="input-textbox" class="form-textbox validate[required, Fill Mask]" size="20" value="" data-component="textbox" aria-labelledby="label_28" required="" />
         </div>
       </li>
       <li class="form-line jf-required" data-type="control_phone" id="id_23">
@@ -2224,14 +2222,14 @@ JotForm.paymentExtrasOnTheFly([null,null,{"name":"submitForm","qid":"2","text":"
         <div id="cid_23" class="form-input jf-required">
           <div data-wrapper-react="true">
             <span class="form-sub-label-container " style="vertical-align:top" data-input-type="areaCode">
-              <input type="tel" id="input_23_area" name="q23_phoneNumber23[area]" class="form-textbox validate[required]" size="6" value="" data-component="areaCode" aria-labelledby="label_23 sublabel_23_area" required="" />
+              <input type="tel" id="input_23_area" name="areaCode" class="form-textbox validate[required]" size="6" value="" data-component="areaCode" aria-labelledby="label_23 sublabel_23_area" required="" />
               <span class="phone-separate" aria-hidden="true">
                  -
               </span>
               <label class="form-sub-label" for="input_23_area" id="sublabel_23_area" style="min-height:13px" aria-hidden="false"> Area Code </label>
             </span>
             <span class="form-sub-label-container " style="vertical-align:top" data-input-type="phone">
-              <input type="tel" id="input_23_phone" name="q23_phoneNumber23[phone]" class="form-textbox validate[required]" size="12" value="" data-component="phone" aria-labelledby="label_23 sublabel_23_phone" required="" />
+              <input type="tel" id="input_23_phone" name="phoneNumber" class="form-textbox validate[required]" size="12" value="" data-component="phone" aria-labelledby="label_23 sublabel_23_phone" required="" />
               <label class="form-sub-label" for="input_23_phone" id="sublabel_23_phone" style="min-height:13px" aria-hidden="false"> Phone Number </label>
             </span>
           </div>
@@ -2249,7 +2247,7 @@ JotForm.paymentExtrasOnTheFly([null,null,{"name":"submitForm","qid":"2","text":"
             <div class="form-address-line-wrapper jsTest-address-line-wrapperField">
               <span colSpan="2" class="form-address-line form-address-street-line jsTest-address-lineField">
                 <span class="form-sub-label-container " style="vertical-align:top">
-                  <input type="text" id="input_20_addr_line1" name="q20_address[addr_line1]" class="form-textbox validate[required] form-address-line" value="" data-component="address_line_1" aria-labelledby="label_20 sublabel_20_addr_line1" required="" />
+                  <input type="text" id="input_20_addr_line1" name="street" class="form-textbox validate[required] form-address-line" value="" data-component="address_line_1" aria-labelledby="label_20 sublabel_20_addr_line1" required="" />
                   <label class="form-sub-label" for="input_20_addr_line1" id="sublabel_20_addr_line1" style="min-height:13px" aria-hidden="false"> Street Address </label>
                 </span>
               </span>
@@ -2265,13 +2263,13 @@ JotForm.paymentExtrasOnTheFly([null,null,{"name":"submitForm","qid":"2","text":"
             <div class="form-address-line-wrapper jsTest-address-line-wrapperField">
               <span class="form-address-line form-address-city-line jsTest-address-lineField">
                 <span class="form-sub-label-container " style="vertical-align:top">
-                  <input type="text" id="input_20_city" name="q20_address[city]" class="form-textbox validate[required] form-address-city" size="21" value="" data-component="city" aria-labelledby="label_20 sublabel_20_city" required="" />
+                  <input type="text" id="input_20_city" name="city" class="form-textbox validate[required] form-address-city" size="21" value="" data-component="city" aria-labelledby="label_20 sublabel_20_city" required="" />
                   <label class="form-sub-label" for="input_20_city" id="sublabel_20_city" style="min-height:13px" aria-hidden="false"> City </label>
                 </span>
               </span>
               <span class="form-address-line form-address-state-line jsTest-address-lineField">
                 <span class="form-sub-label-container " style="vertical-align:top">
-                  <input type="text" id="input_20_state" name="q20_address[state]" class="form-textbox validate[required] form-address-state" size="22" value="" data-component="state" aria-labelledby="label_20 sublabel_20_state" required="" />
+                  <input type="text" id="input_20_state" name="state" class="form-textbox validate[required] form-address-state" size="22" value="" data-component="state" aria-labelledby="label_20 sublabel_20_state" required="" />
                   <label class="form-sub-label" for="input_20_state" id="sublabel_20_state" style="min-height:13px" aria-hidden="false"> State / Province </label>
                 </span>
               </span>
@@ -2279,13 +2277,13 @@ JotForm.paymentExtrasOnTheFly([null,null,{"name":"submitForm","qid":"2","text":"
             <div class="form-address-line-wrapper jsTest-address-line-wrapperField">
               <span class="form-address-line form-address-zip-line jsTest-address-lineField">
                 <span class="form-sub-label-container " style="vertical-align:top">
-                  <input type="text" id="input_20_postal" name="q20_address[postal]" class="form-textbox validate[required] form-address-postal" size="10" value="" data-component="zip" aria-labelledby="label_20 sublabel_20_postal" required="" />
-                  <label class="form-sub-label" for="input_20_postal" id="sublabel_20_postal" style="min-height:13px" aria-hidden="false"> Postal / Zip Code </label>
+                  <input type="text" id="input_20_postal" name="house" class="form-textbox validate[required] form-address-postal" size="10" value="" data-component="zip" aria-labelledby="label_20 sublabel_20_postal" required="" />
+                  <label class="form-sub-label" for="input_20_postal" id="sublabel_20_postal" style="min-height:13px" aria-hidden="false"> House no. </label>
                 </span>
               </span>
               <span class="form-address-line form-address-country-line jsTest-address-lineField">
                 <span class="form-sub-label-container " style="vertical-align:top">
-                  <select class="form-dropdown form-address-country noTranslate" name="q20_address[country]" id="input_20_country" data-component="country" required="" aria-labelledby="label_20 sublabel_20_country">
+                  <select class="form-dropdown form-address-country noTranslate" name="country" id="input_20_country" data-component="country" required="" aria-labelledby="label_20 sublabel_20_country">
                     <option value=""> Please Select </option>
                     <option value="United States"> United States </option>
                     <option value="Afghanistan"> Afghanistan </option>
@@ -2550,7 +2548,7 @@ JotForm.paymentExtrasOnTheFly([null,null,{"name":"submitForm","qid":"2","text":"
           </span>
         </label>
         <div id="cid_24" class="form-input jf-required">
-          <input type="email" id="input_24" name="q24_emailAddress" class="form-textbox validate[required, Email]" size="30" value="" data-component="email" aria-labelledby="label_24" required="" />
+          <input type="email" id="input_24" name="email" class="form-textbox validate[required, Email]" size="30" value="" data-component="email" aria-labelledby="label_24" required="" />
         </div>
       </li>
       <li class="form-line jf-required" data-type="control_textbox" id="id_30">
@@ -2561,7 +2559,7 @@ JotForm.paymentExtrasOnTheFly([null,null,{"name":"submitForm","qid":"2","text":"
           </span>
         </label>
         <div id="cid_30" class="form-input jf-required">
-          <input type="text" id="input_30" name="q30_doctorsName" data-type="input-textbox" class="form-textbox validate[required]" size="20" value="" data-component="textbox" aria-labelledby="label_30" required="" />
+          <input type="text" id="input_30" name="doctorsName" data-type="input-textbox" class="form-textbox validate[required]" size="20" value="" data-component="textbox" aria-labelledby="label_30" required="" />
         </div>
       </li>
       <li class="form-line jf-required" data-type="control_dropdown" id="id_29">
@@ -2572,7 +2570,7 @@ JotForm.paymentExtrasOnTheFly([null,null,{"name":"submitForm","qid":"2","text":"
           </span>
         </label>
         <div id="cid_29" class="form-input jf-required">
-          <select class="form-dropdown validate[required]" id="input_29" name="q29_test" style="width:150px" data-component="dropdown" required="" aria-labelledby="label_29">
+          <select class="form-dropdown validate[required]" id="input_29" name="testName" style="width:150px" data-component="dropdown" required="" aria-labelledby="label_29">
             <option value="">  </option>
             <option value="Complete Blood Count"> Complete Blood Count </option>
             <option value="Corona Test"> Corona Test </option>
@@ -2609,6 +2607,7 @@ JotForm.paymentExtrasOnTheFly([null,null,{"name":"submitForm","qid":"2","text":"
         </div>
       </li>
 
+
       <li class="form-line" data-type="control_button" id="id_2">
         <div id="cid_2" class="form-input-wide">
           <div style="text-align:center" data-align="center" class="form-buttons-wrapper form-buttons-center   jsTest-button-wrapperField">
@@ -2624,12 +2623,7 @@ JotForm.paymentExtrasOnTheFly([null,null,{"name":"submitForm","qid":"2","text":"
       </li>
     </ul>
   </div>
-  <script>
-  JotForm.showJotFormPowered = "new_footer";
-  </script>
-  <script>
-  JotForm.poweredByText = "Powered by JotForm";
-  </script>
+
   <input type="hidden" id="simple_spc" name="simple_spc" value="201208313489452" />
   <script type="text/javascript">
   document.getElementById("si" + "mple" + "_spc").value = "201208313489452-201208313489452";
