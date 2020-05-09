@@ -25,21 +25,35 @@ def dataEntry():
 
 @app.route("/WorkerProfile",methods=['POST'])
 def new():
-    name = request.form.get('q4_fullName4');
+    #id,name,birthdate,cnic,gender,country,city,state,streetno,house no,email,password,phone number,subject,message
+    name = request.form.get('pname')
+    dateOfBirth = request.form.get('DOB')
+    CNIC = request.form.get('p_cnic')
+    gender = request.form.get('pgender')
+    country = request.form.get('country')
+    city = request.form.get('city')
+    state = request.form.get('state')
+    street = request.form.get('street')
+    housenumber = request.form.get('house')
+    email = request.form.get('email')
+    phoneNumber = request.form.get('phoneNumber')
+
+
+    areaCode = request.form.get('areaCode')
+    doctorsName = request.form.get('doctorsName')
+    testName = request.form.get('testName')
+    
     print(name)
-    return render_template('new.html',name=name)
+    return render_template('new.html',name=name, pgender=gender,testName=testName)
 
 @app.route("/worker")
 def workerProfile():
     return render_template('Worker_Profile.html')
 
-<<<<<<< HEAD
-=======
+
 @app.route("/patientRecord")
 def patientRecord():
     return render_template('patientRecord.html')
-
->>>>>>> d762f9fab77713882f6f42a59aff94cad34fe670
 
 if __name__ == '__main__':
     app.run(debug=True)
