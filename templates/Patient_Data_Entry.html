@@ -2170,13 +2170,14 @@ JotForm.paymentExtrasOnTheFly([null,null,{"name":"submitForm","qid":"2","text":"
         </div>
       </li>
       <li class="form-line jf-required" data-type="control_textbox" id="id_4">
-        <label class="form-label form-label-left form-label-auto" id="label_4" for="input_4">
+        <label class="form-label form-label-left form-label-auto" name = "name" id="label_4" for="input_4">
           Full Name
           <span class="form-required">
             *
           </span>
         </label>
         <div id="cid_4" class="form-input jf-required">
+<input type="text" class="form-control" name = "newfield" placeholder ="Name"required>
           <input type="text" id="input_4" name="q4_fullName4" data-type="input-textbox" class="form-textbox validate[required]" size="30" value="" placeholder=" " data-component="textbox" aria-labelledby="label_4" required="" />
         </div>
       </li>
@@ -2607,23 +2608,7 @@ JotForm.paymentExtrasOnTheFly([null,null,{"name":"submitForm","qid":"2","text":"
           </div>
         </div>
       </li>
-      <li class="form-line jf-required" data-type="control_appointment" id="id_25">
-        <label class="form-label form-label-top" id="label_25" for="input_25">
-          Appointment
-          <span class="form-required">
-            *
-          </span>
-        </label>
-        <div id="cid_25" class="form-input-wide jf-required">
-          <div id="input_25" class="appointmentFieldWrapper jfQuestion-fields">
-            <input class="appointmentFieldInput validate" name="q25_appointment[date]" id="input_25_date" />
-            <input class="appointmentFieldInput" name="q25_appointment[duration]" value="60" id="input_25_duration" />
-            <input class="appointmentFieldInput" name="q25_appointment[timezone]" value="America/Bahia (GMT-03:00)" id="input_25_timezone" />
-            <div class="appointmentField">
-            </div>
-          </div>
-        </div>
-      </li>
+
       <li class="form-line" data-type="control_button" id="id_2">
         <div id="cid_2" class="form-input-wide">
           <div style="text-align:center" data-align="center" class="form-buttons-wrapper form-buttons-center   jsTest-button-wrapperField">
