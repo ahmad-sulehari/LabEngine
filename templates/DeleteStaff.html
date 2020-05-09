@@ -83,6 +83,7 @@
       <a class="dropdown-item" href="#">Staff Record</a>
       <a class="dropdown-item" href="#">Update Staff</a>
       <a class="dropdown-item" href="#">Add Staff</a>
+      <a class="dropdown-item" href="/deleteStaff">Delete Staff Record</a>
       <div class="dropdown-divider"></div>
         
         </div> </li>
@@ -123,7 +124,7 @@
   <form action="/deleteStaff" onsubmit="return confirm('Are You Sure You Want to Delete the User and All its Data?');" method="post" class="needs-validation" novalidate>
     <div class="form-group">
       <label for="Staff ID" style="color: black"><b>Staff ID</b></label>
-      <input type="text" class="form-control" pattern="[a-zA-Z ]+"  maxlength="50" id="staffID" placeholder="Enter Patient Name" name="staffID" id="staffID" required>
+      <input type="text" class="form-control" pattern="[a-zA-Z ]+"  maxlength="50" id="staffID" placeholder="Enter Staff ID" name="staffID" id="staffID" required>
       <div class="valid-feedback">Valid.</div>
       <div class="invalid-feedback">Please fill out this field Or Please Enter Alphabets and Spaces only</div>
     </div>

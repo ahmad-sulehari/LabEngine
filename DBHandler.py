@@ -11,7 +11,7 @@ class DBHandler:
         print("Destructor")
 
 
-        def insertFeedback(self, name, email, subject, message):
+        def insertFeedback(self, id, subject, message):
             db = None
             cursor = None
             insert = False
@@ -19,8 +19,8 @@ class DBHandler:
                 db = pymysql.connect(host=self.DATABASEIP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
                                      database=self.DATABASE)
                 cur = db.cursor()
-                sql = 'insert into feedbacks (name,email,subject,message) values (%s,%s,%s,%s)'
-                args = (name, email, subject, message)
+                sql = 'update patient set subject=%s,message=%s where patientID=%s'
+                args = ( subject, message,id)
                 cur.execute(sql, args)
                 insert = True
 
@@ -53,6 +53,64 @@ class DBHandler:
                 if (db != None):
                     db.commit()
             return insert
+
+
+
+
+
+    def getPatientID(self,id):
+        db = None
+        cursor = None
+        try:
+            db = pymysql.connect(host=self.DATABASEIP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
+                                 database=self.DATABASE)
+            cur = db.cursor()
+            sql = 'select * from patient where patientID=%s'
+            args = (id)
+            cur.execute(sql,args)
+            result = cur.fetchone()
+            return result[0]
+        except Exception as e:
+            print(e)
+
+    def getStaffID(self,id,cnic):
+        db = None
+        cursor = None
+        try:
+            db = pymysql.connect(host=self.DATABASEIP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
+                                 database=self.DATABASE)
+            cur = db.cursor()
+            sql = 'select * from staff where staffID=%s'
+            args = (id)
+            cur.execute(sql, args)
+            result = cur.fetchone()
+            return result[0]
+        except Exception as e:
+            print(e)
+
+
+    def deleteStaff(self,id):
+        db = None
+        cursor = None
+        try:
+            db = pymysql.connect(host=self.DATABASEIP, port=3307, user=self.DB_USER, passwd=self.DB_PASSWORD,
+                                 database=self.DATABASE)
+            cur = db.cursor()
+            sql = 'Delete from staff where id = %s'
+            args = (id)
+            result = cur.execute(sql, args)
+            db.commit()
+            if (result == None):
+                return False
+            else:
+                return True
+        except Exception as e:
+            print(e)
+            return False
+
+
+
+
 
 
 
