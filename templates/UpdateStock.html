@@ -62,16 +62,16 @@
         Reports
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="#">REPORTS RECORD</a>
+          <a class="dropdown-item" href="">REPORTS RECORD</a>
           <a class="dropdown-item" href="#">UPDATE RECORD</a>
-          <a class="dropdown-item" href="#">DELETE RECORD</a>
+          <a class="dropdown-item" href="DeleteReport.html">DELETE RECORD</a>
         </div>
       </li>
                   
                  <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" style="text-decoration: none; color: white" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" >Patient</a>
     <div class="dropdown-menu">
-      <a class="dropdown-item" href="#">Patient Records</a>
+      <a class="dropdown-item" href="patient.html">Patient Records</a>
       <a class="dropdown-item" href="#">Update Records</a>
       <a class="dropdown-item" href="DeletePatientRecord.html">Delete Reports</a>
       <div class="dropdown-divider"></div>
@@ -80,24 +80,25 @@
     <a class="nav-link dropdown-toggle" style="text-decoration: none; color: white" data-toggle="dropdown" href="staff.html" role="button" aria-haspopup="true" aria-expanded="false">
         Staff</a>
       <div class="dropdown-menu">
-      <a class="dropdown-item" href="#">Staff Record</a>
+      <a class="dropdown-item" href="">Staff Record</a>
       <a class="dropdown-item" href="#">Update Staff</a>
       <a class="dropdown-item" href="#">Add Staff</a>
-      <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="/deleteStaff">Delete Staff Record</a>
+          <div class="dropdown-divider"></div>
         
         </div> </li>
                     <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" style="text-decoration: none; color: white" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
         STOCK</a>
       <div class="dropdown-menu">
-      <a class="dropdown-item" href="#">STOCK Record</a>
-      <a class="dropdown-item" href="#">Update STOCK</a>
+      <a class="dropdown-item" href="/stockView">STOCK Record</a>
+      <a class="dropdown-item" href="/updateStock">Update STOCK</a>
       <div class="dropdown-divider"></div>
         
         </div> </li>
                  
                 <li class=""><a href="Accounts.html" style="text-decoration: none; color: white">Accounts</a></li>
-                  <li class=""><a href="feedback.html" style="text-decoration: none; color: white">FEedBack</a></li>
+                   <li class=""><a href="/checkFeedbacks" style="text-decoration: none; color: white">FeedBack</a></li>
                 <li class="" style="background-color:cadetblue"><a href="{{ url_for('login') }} "style="text-decoration: none; color: white">Logout</a></li>
 
               </ul>
@@ -123,35 +124,35 @@
   <form action="/updateStock" method="post">
     <div class="form-group">
       <label for="No.of Masks" style="color: black"><b>No.of Masks</b></label>
-      <input type="text" class="form-control" maxlength="5" id="noFMasks" pattern="[0-9-]+" placeholder="Enter Mask Quantity" name="pMask" required>
+      <input type="text" class="form-control" maxlength="5" id="noFMasks" pattern="[0-9-]+" placeholder="Enter Mask Quantity" name="noFMasks" required>
       <div class="valid-feedback">Valid.</div>
       <div class="invalid-feedback">Please fill out this field Or Please Enter Quantity only</div>
     </div>
       
       <div class="form-group">
       <label for="No.of Gloves" style="color: black"><b>No.of Gloves</b></label>
-      <input type="text" class="form-control"  maxlength="5" id="noFGloves" pattern="[0-9-]+" placeholder="Enter Gloves Quantity" name="pGloves" required>
+      <input type="text" class="form-control"  maxlength="5" id="noFGloves" pattern="[0-9-]+" placeholder="Enter Gloves Quantity" name="noFGloves" required>
       <div class="valid-feedback">Valid.</div>
       <div class="invalid-feedback">Please fill out this field Or Please Enter Quantity only</div>
     </div>
       
       <div class="form-group">
       <label for="No.of Containers" style="color: black"><b>No.of Containers</b></label>
-      <input type="text" class="form-control"  maxlength="5" id="noFContainers" pattern="[0-9-]+"  placeholder="Enter Containers Quantity" name="pContainers" required>
+      <input type="text" class="form-control"  maxlength="5" id="noFContainers" pattern="[0-9-]+"  placeholder="Enter Containers Quantity" name="noFContainers" required>
       <div class="valid-feedback">Valid.</div>
       <div class="invalid-feedback">Please fill out this field Or Please Enter Quantity only</div>
     </div>
       
       <div class="form-group">
       <label for="No.of swabs" style="color: black"><b>No.of swabs</b></label>
-      <input type="text" class="form-control" maxlength="5" id="noFSwabs" pattern="[0-9-]+" placeholder="Enter Syringes Quantity" name="pSwabs" required>
+      <input type="text" class="form-control" maxlength="5" id="noFSwabs" pattern="[0-9-]+" placeholder="Enter Syringes Quantity" name="noFSwabs" required>
       <div class="valid-feedback">Valid.</div>
       <div class="invalid-feedback">Please fill out this field Or Please Enter Quantity only</div>
     </div>
       
           <div class="form-group">
       <label for="No.of Syringes" style="color: black"><b>No.of Syringes</b></label>
-      <input type="text" class="form-control" maxlength="5" id="noFSyringes" pattern="[0-9-]+" placeholder="Enter Syringes Quantity" name="pSyringes" required>
+      <input type="text" class="form-control" maxlength="5" id="noFSyringes" pattern="[0-9-]+" placeholder="Enter Syringes Quantity" name="noFSyringes" required>
       <div class="valid-feedback">Valid.</div>
       <div class="invalid-feedback">Please fill out this field Or Please Enter Quantity only</div>
     </div>
@@ -159,28 +160,28 @@
       
           <div class="form-group">
       <label for="No.of GlassWare" style="color: black"><b>No.of GlassWare</b></label>
-      <input type="text" class="form-control" maxlength="5" id="noFGlassWare" pattern="[0-9-]+" placeholder="Enter GlassWare Quantity" name="pGlassWare" required>
+      <input type="text" class="form-control" maxlength="5" id="noFGlassWare" pattern="[0-9-]+" placeholder="Enter GlassWare Quantity" name="noFGlassWare" required>
       <div class="valid-feedback">Valid.</div>
       <div class="invalid-feedback">Please fill out this field Or Please Enter Quantity only</div>
     </div>
 
           <div class="form-group">
       <label for="No.of Sanitizors" style="color: black"><b>No.of Sanitizors</b></label>
-      <input type="text" class="form-control"  maxlength="5" id="noFSanitizors" pattern="[0-9-]+" placeholder="Enter Sanitizer Quantity" name="pSanitizors" required>
+      <input type="text" class="form-control"  maxlength="5" id="noFSanitizors" pattern="[0-9-]+" placeholder="Enter Sanitizer Quantity" name="noFSanitizors" required>
       <div class="valid-feedback">Valid.</div>
       <div class="invalid-feedback">Please fill out this field Or Please Enter Quantity only</div>
     </div>
       
  <div class="form-group">
       <label for="No.of CottonPackages" style="color: black"><b>No.of CottonPackages</b></label>
-      <input type="text" class="form-control" maxlength="5" id="noFCottonPkg" pattern="[0-9-]+" placeholder="Enter CottonPkg Quantity" name="pCottonPkg" required>
+      <input type="text" class="form-control" maxlength="5" id="noFCottonPkg" pattern="[0-9-]+" placeholder="Enter CottonPkg Quantity" name="noFCottonPkg" required>
       <div class="valid-feedback">Valid.</div>
       <div class="invalid-feedback">Please fill out this field Or Please Enter Quantity only</div>
     </div>
       
       <div class="form-group">
       <label for="No.of Reagents" style="color: black"><b>No.of Reagents</b></label>
-      <input type="text" class="form-control" maxlength="5" id="noFReagents" pattern="[0-9-]+" placeholder="Enter Reagents Quantity" name="pReagents" required>
+      <input type="text" class="form-control" maxlength="5" id="noFReagents" pattern="[0-9-]+" placeholder="Enter Reagents Quantity" name="noFReagents" required>
       <div class="valid-feedback">Valid.</div>
       <div class="invalid-feedback">Please fill out this field Or Please Enter Quantity only</div>
     </div>

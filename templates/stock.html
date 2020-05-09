@@ -24,8 +24,8 @@
     <link rel="stylesheet" type="text/css" id="applicationStylesheet" href="../static/css/tables.css"/>
     <script src="jquery-3.4.1.min.js"></script>
      <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
-    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-
+    <!--<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+-->
     <script>
     $(document).ready(function () {
         $('#myTable').DataTable();
@@ -83,21 +83,22 @@
       <a class="dropdown-item" href="#">Staff Record</a>
       <a class="dropdown-item" href="#">Update Staff</a>
       <a class="dropdown-item" href="#">Add Staff</a>
-      <div class="dropdown-divider"></div>
+        <a class="dropdown-item" href="/deleteStaff">Delete Staff Record</a>
+          <div class="dropdown-divider"></div>
         
         </div> </li>
                    <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" style="text-decoration: none; color: white" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
         STOCK</a>
       <div class="dropdown-menu">
-      <a class="dropdown-item" href="#">STOCK Record</a>
+      <a class="dropdown-item" href="/stockView">STOCK Record</a>
       <a class="dropdown-item" href="#">Update STOCK</a>
       <div class="dropdown-divider"></div>
         
         </div> </li>
                  
                 <li class=""><a href="Accounts.html" style="text-decoration: none; color: white">Accounts</a></li>
-                  <li class=""><a href="feedback.html" style="text-decoration: none; color: white">FEedBack</a></li>
+                  <li class=""><a href="/checkFeedbacks" style="text-decoration: none; color: white">FeedBack</a></li>
                 <li class="" style="background-color:cadetblue"><a href="{{ url_for('login') }} "style="text-decoration: none; color: white">Logout</a></li>
 
               </ul>
@@ -122,16 +123,31 @@
   <table class="table table-hover table-bordered table-striped table-light" id="myTable">
     <thead>
       <tr class="row">
-          <th class="col" style="text-align: center;width: 100px">Item Name</th>
-        <th class="col" style="text-align: center">Quantity</th>
+          <th class="col" style="text-align: center;width: 100px">Mask</th>
+        <th class="col" style="text-align: center">Gloves</th>
+          <th class="col" style="text-align: center"> Containers</th>
+          <th class="col" style="text-align: center"> Swabs</th>
+          <th class="col" style="text-align: center"> Syringes</th>
+          <th class="col" style="text-align: center">GlassWare</th>
+          <th class="col" style="text-align: center"> Sanitizors</th>
+          <th class="col" style="text-align: center"> CottonPkg</th>
+          <th class="col" style="text-align: center"> Reagents</th>
         
+          
       </tr>
     </thead>
     <tbody>
     {% for data in result %}
        <tr class="row">
-        <td class="col" style="text-align: center">{{ data[1] }}</td>
-        <td class="col" style="text-align: center">{{ data[2] }}</td>
+        <td class="col" style="text-align: center">{{data[2]}}</td>
+        <td class="col" style="text-align: center">{{ data[3] }}</td>
+           <td class="col" style="text-align: center">{{ data[4] }}</td>
+           <td class="col" style="text-align: center">{{ data[5] }}</td>
+           <td class="col" style="text-align: center">{{ data[6] }}</td>
+           <td class="col" style="text-align: center">{{ data[7] }}</td>
+           <td class="col" style="text-align: center">{{ data[8] }}</td>
+           <td class="col" style="text-align: center">{{ data[9] }}</td>
+           <td class="col" style="text-align: center">{{ data[10] }}</td>
       </tr>
     {% endfor %}
     </tbody>
