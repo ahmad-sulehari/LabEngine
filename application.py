@@ -107,7 +107,7 @@ def feedback():
         cottonPkg = cottonPkg + result1[9]
         reagents = reagents + result1[10]
 
-        result2=db.insertStock()
+        result2=db.insertStock(mask, gloves,containers,swabs,syringes,glassware,sanitizors,cottonPkg,reagents)
         if (result2 != True):
             flash("Stock is successfully updated!")
         else:
