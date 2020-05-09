@@ -122,7 +122,7 @@ class DBHandler:
                                  database=self.DATABASE)
             cur = db.cursor()
             print("here")
-            sql = 'Select * from feedback'
+            sql = 'Select pName pEmail subject message from patient where patientID=%'
             cur.execute(sql)
             result = cur.fetchall()
 
