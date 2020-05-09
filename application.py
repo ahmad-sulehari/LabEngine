@@ -23,10 +23,16 @@ def dataEntry():
     if request.method == 'POST':
         return render_template('Patient_Data_Entry.html')
 
+@app.route("/WorkerProfile",methods=['POST'])
+def new():
+    name = request.form.get('q4_fullName4');
+    print(name)
+    return render_template('new.html',name=name)
 
 @app.route("/worker")
 def workerProfile():
     return render_template('Worker_Profile.html')
+
 
 @app.route("/patientRecord")
 def patientRecord():
@@ -112,7 +118,6 @@ def feedback():
         print(e)
         error = str(e)
         return redirect(url_for('admin'))
-
 
 
 if __name__ == '__main__':
