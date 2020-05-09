@@ -1,8 +1,9 @@
 import pymysql
+import smtplib,os
 
 class DBHandler:
-    def __init__(self,DATABASEIP,DB_USER,DB_PASSWORD,DATABASE):
-        self.DATABASEIP=DATABASEIP
+    def __init__(self,DATABASE_IP,DB_USER,DB_PASSWORD,DATABASE):
+        self.DATABASE_IP=DATABASE_IP
         self.DB_USER=DB_USER
         self.DB_PASSWORD=DB_PASSWORD
         self.DATABASE=DATABASE
@@ -16,7 +17,7 @@ class DBHandler:
             cursor = None
             insert = False
             try:
-                db = pymysql.connect(host=self.DATABASEIP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
+                db = pymysql.connect(host=self.DATABASE_IP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
                                      database=self.DATABASE)
                 cur = db.cursor()
                 sql = 'update patient set subject=%s,message=%s where patientID=%s'
@@ -38,7 +39,7 @@ class DBHandler:
             cursor = None
             insert = False
             try:
-                db = pymysql.connect(host=self.DATABASEIP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
+                db = pymysql.connect(host=self.DATABASE_IP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
                                      database=self.DATABASE)
                 cur = db.cursor()
                 sql = 'insert into test (noFMasks, noFGloves, noFContainers, noFSwabs,noFSyringes,noFGlassWare,noFSanitizors,noFCottonPkg,noFReagents) values (%s,%s,%s,%s,%s,%s,%s,%s,%s)'
@@ -62,7 +63,7 @@ class DBHandler:
         db = None
         cursor = None
         try:
-            db = pymysql.connect(host=self.DATABASEIP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
+            db = pymysql.connect(host=self.DATABASE_IP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
                                  database=self.DATABASE)
             cur = db.cursor()
             sql = 'select * from patient where patientID=%s'
@@ -77,7 +78,7 @@ class DBHandler:
         db = None
         cursor = None
         try:
-            db = pymysql.connect(host=self.DATABASEIP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
+            db = pymysql.connect(host=self.DATABASE_IP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
                                  database=self.DATABASE)
             cur = db.cursor()
             sql = 'select * from staff where staffID=%s'
@@ -93,7 +94,7 @@ class DBHandler:
         db = None
         cursor = None
         try:
-            db = pymysql.connect(host=self.DATABASEIP, port=3307, user=self.DB_USER, passwd=self.DB_PASSWORD,
+            db = pymysql.connect(host=self.DATABASE_IP, port=3307, user=self.DB_USER, passwd=self.DB_PASSWORD,
                                  database=self.DATABASE)
             cur = db.cursor()
             sql = 'Delete from staff where id = %s'
@@ -118,7 +119,7 @@ class DBHandler:
         db = None
         cursor = None
         try:
-            db = pymysql.connect(host=self.DATABASEIP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
+            db = pymysql.connect(host=self.DATABASE_IP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
                                  database=self.DATABASE)
             cur = db.cursor()
             print("here")
@@ -138,7 +139,7 @@ class DBHandler:
             db = None
             cursor = None
             try:
-                db = pymysql.connect(host=self.DATABASEIP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
+                db = pymysql.connect(host=self.DATABASE_IP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
                                      database=self.DATABASE)
                 cur = db.cursor()
                 print("here")
@@ -153,3 +154,70 @@ class DBHandler:
                 if (db != None):
                     db.commit()
                 return result
+
+
+    def validateStaff(self,id,password):
+        db = None
+        valid = False
+        try:
+            db = pymysql.connect(host=self.DATABASE_IP,port=3306,user=self.DB_USER,password=self.DB_PASSWORD,database=self.DATABASE)
+            cur = db.cursor()
+            sql = 'select sPassword from staff where staffID=%s'
+            args = (id)
+            done = cur.execute(sql,args)
+            tuple = cur.fetchone()
+            passwd = tuple[0]
+            if done:
+                if password == passwd :
+                    valid =True
+        except Exception as e:
+            print(e)
+            print('error in validate staff')
+        finally:
+            if db != None:
+                db.commit()
+        return valid
+
+    def validatePatient(self,id,password):
+        db = None
+        valid = False
+        try:
+            db = pymysql.connect(host=self.DATABASE_IP,port=3306,user=self.DB_USER,password=self.DB_PASSWORD,database=self.DATABASE)
+            cur = db.cursor()
+            sql = 'select sPassword from staff where patientID=%s'
+            args = (id)
+            done = cur.execute(sql,args)
+            tuple = cur.fetchone()
+            passwd = tuple[0]
+            if done:
+                if password == passwd :
+                    valid =True
+        except Exception as e:
+            print(e)
+            print('error in validate patient')
+        finally:
+            if db != None:
+                db.commit()
+        return valid
+
+    def checkAdmin(self,id):
+        db = None
+        valid = False
+        try:
+            db = pymysql.connect(host=self.DATABASE_IP,port=3306,user=self.DB_USER,password=self.DB_PASSWORD,database=self.DATABASE)
+            cur = db.cursor()
+            sql = 'select designation from staff where staffID=%s'
+            args = (id)
+            done = cur.execute(sql,args)
+            tuple = cur.fetchone()
+            designation = tuple[0]
+            if done:
+                if designation == 'admin' :
+                    valid =True
+        except Exception as e:
+            print(e)
+            print('error in check admin')
+        finally:
+            if db != None:
+                db.commit()
+        return valid
