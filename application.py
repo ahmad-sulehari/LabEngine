@@ -70,7 +70,6 @@ def feedback():
 
 
 
-
 @app.route('/checkFeedbacks', methods=['GET', 'POST'])
 def pFeedBack():
     db = DBHandler(app.config["DATABASEIP"], app.config["DB_USER"], app.config["DB_PASSWORD"],
@@ -83,7 +82,7 @@ def pFeedBack():
 
 
 @app.route('/stockView', methods=['GET', 'POST'])
-def userFeedBack():
+def stockView():
     db = DBHandler(app.config["DATABASEIP"], app.config["DB_USER"], app.config["DB_PASSWORD"],
                    app.config["DATABASE"])
     result = db.showStockView()
@@ -153,8 +152,6 @@ def deleteStaff():
         error='successfull'
 
     return render_template('deleteUser.html', error=error)
-
-
 
 
 
