@@ -184,11 +184,12 @@ class DBHandler:
         try:
             db = pymysql.connect(host=self.DATABASE_IP,port=3306,user=self.DB_USER,password=self.DB_PASSWORD,database=self.DATABASE)
             cur = db.cursor()
-            sql = 'select sPassword from staff where patientID=%s'
+            sql = 'select pPassword from patient where patientID=%s'
             args = (id)
             done = cur.execute(sql,args)
             tuple = cur.fetchone()
-            passwd = tuple[0]
+            if tuple:
+                passwd = tuple[0]
             if done:
                 if password == passwd :
                     valid =True

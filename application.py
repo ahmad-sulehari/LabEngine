@@ -24,9 +24,18 @@ def index():
 
 @app.route("/login",methods=['GET','POST'])
 def login():
-    if request.method == 'POST':
-        validate()
-    return render_template('login.html')
+    if not g.ID:
+        if request.method == 'POST':
+            return validate()
+        else:
+            return render_template('login.html')
+    else:
+        if g.ID.startswith('PT'):
+            return redirect(url_for('patient',isValid=True))
+        else:
+            return redirect(url_for('staff',isValid=True))
+
+
 
 
 def validate():
@@ -39,13 +48,15 @@ def validate():
             if isValid:
                 return redirect(url_for('staff',isValid=True))
             else:
-                return redirect(url_for('login'))
-        done= db.validatePatient(user_ID,user_password)
+                return redirect(url_for('failure'))
+                #return render_template('login.html',error='wrong credentials')
+        done = db.validatePatient(user_ID,user_password)
         if done:
             session['ID'] = user_ID;
             return redirect(url_for('patient',isValid=True))
         else:
-            return redirect(url_for('login'))
+            return redirect(url_for('failure'))
+            #return render_template('login.html',error='wrong credentials')
 
     except Exception as e:
         print(e)
@@ -215,7 +226,10 @@ def deleteStaff():
     return render_template('deleteUser.html', error=error)
 
 
-
+@app.route('/dropsession')
+def drop_session():
+    session.pop('ID',None)
+    return redirect(url_for('login'))
 
 
 if __name__ == '__main__':
