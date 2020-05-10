@@ -1,4 +1,4 @@
-DATABASEIP = 'localhost'
+DATABASE_IP = 'localhost'
 DB_USER = 'root'
 DB_PASSWORD = '0334-9970264Pakistan124'
 DATABASE = 'labengine'
