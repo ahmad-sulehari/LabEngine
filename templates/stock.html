@@ -73,7 +73,7 @@
     <div class="dropdown-menu">
       <a class="dropdown-item" href="#">Patient Records</a>
       <a class="dropdown-item" href="#">Update Records</a>
-      <a class="dropdown-item" href="#">Delete Reports</a>
+      <a class="dropdown-item" href="/deletePatient">Delete Reports</a>
       <div class="dropdown-divider"></div>
  </div> </li>  
                  <li class="nav-item dropdown">
@@ -123,15 +123,10 @@
   <table class="table table-hover table-bordered table-striped table-light" id="myTable">
     <thead>
       <tr class="row">
-          <th class="col" style="text-align: center;width: 100px">Mask</th>
-        <th class="col" style="text-align: center">Gloves</th>
-          <th class="col" style="text-align: center"> Containers</th>
-          <th class="col" style="text-align: center"> Swabs</th>
-          <th class="col" style="text-align: center"> Syringes</th>
-          <th class="col" style="text-align: center">GlassWare</th>
-          <th class="col" style="text-align: center"> Sanitizors</th>
-          <th class="col" style="text-align: center"> CottonPkg</th>
-          <th class="col" style="text-align: center"> Reagents</th>
+          <th class="col" style="text-align: center;width: 100px">itemID</th>
+        <th class="col" style="text-align: center">item Name</th>
+          <th class="col" style="text-align: center"> item Quantity</th>
+         
         
           
       </tr>
@@ -139,15 +134,9 @@
     <tbody>
     {% for data in result %}
        <tr class="row">
-        <td class="col" style="text-align: center">{{data[2]}}</td>
-        <td class="col" style="text-align: center">{{ data[3] }}</td>
-           <td class="col" style="text-align: center">{{ data[4] }}</td>
-           <td class="col" style="text-align: center">{{ data[5] }}</td>
-           <td class="col" style="text-align: center">{{ data[6] }}</td>
-           <td class="col" style="text-align: center">{{ data[7] }}</td>
-           <td class="col" style="text-align: center">{{ data[8] }}</td>
-           <td class="col" style="text-align: center">{{ data[9] }}</td>
-           <td class="col" style="text-align: center">{{ data[10] }}</td>
+        <td class="col" style="text-align: center">{{data[0]}}</td>
+        <td class="col" style="text-align: center">{{ data[1] }}</td>
+           <td class="col" style="text-align: center">{{ data[2] }}</td>
       </tr>
     {% endfor %}
     </tbody>
