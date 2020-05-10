@@ -1,4 +1,14 @@
 import pymysql
+import random
+import string
+
+def get_random_alphaNumeric_string(stringLength=10):
+    lettersAndDigits = string.ascii_letters + string.digits
+    return ''.join((random.choice(lettersAndDigits) for i in range(stringLength)))
+
+def get_random_Numeric_string(stringLength=8):
+    Digits = string.digits
+    return ''.join((random.choice(Digits) for i in range(stringLength)))
 
 class DBHandler:
     def __init__(self,DATABASEIP,DB_USER,DB_PASSWORD,DATABASE):
@@ -108,10 +118,84 @@ class DBHandler:
             print(e)
             return False
 
+    def insertPatient(self,name,dob,cnic,gender,country,city,state,streetNo,houseNo,email,phoneNo):
+        # id,name,birthdate,cnic,gender,country,city,state,streetNo,house no,email,password,phone number,subject,message
+        db = None
+        cursor = None
+        insert = False
+        try:
+            print("Inserting patient")
+            db = pymysql.connect(host=self.DATABASEIP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
+                                 database=self.DATABASE)
+            cur = db.cursor()
+            p_id = 'pt' + get_random_Numeric_string()
+            print(p_id)
+            session["p_id"]=p_id
+            reportID = 'rep' + get_random_Numeric_string(7)
+            print(reportID)
+            session["reportID"]=reportID
+            password = get_random_alphaNumeric_string()
+            print(password)
+            sql = 'Insert into patient (patientID,pName,pBirthdate,pCNIC,pGender,pCountry,pCity,pState,pStreetNo,pHouseNo,pEmail,pPassword,pPhoneNo) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)'
+            args = (p_id,name,dob,cnic,gender,country,city,state,streetNo,houseNo,email,password,phoneNo)
+            cur.execute(sql, args)
+            insert = True
+        except Exception as e:
+            print(e)
+            print("some error")
+        finally:
+            if (db != None):
+                db.commit()
+            return insert
 
 
+    def getStaffData(self,staff_ID):
+        db = None
+        cursor = None
+        valid = False
+        data =[]
+        try:
+            print("Getting staff data")
+            db = pymysql.connect(host=self.DATABASEIP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
+                                 database=self.DATABASE)
+            cur = db.cursor()
+            sql = 'Select * from staff where staffID = '+ '%s'
+            args = (staff_ID)
+            cur.execute(sql, args)
+            data = cur.fetchone();
+            if (data != None):
+                valid = True
+        except Exception as e:
+            print(e)
+            print("some error")
+        finally:
+            if (db != None):
+                db.commit()
+            return data
 
-
+    def editStaffData(self,staff_ID,name,DOB,CNIC,gender,country,city,state,streetNo,houseNo,email,password,phoneNo,salary):
+        db = None
+        cursor = None
+        edited = False
+        data =[]
+        try:
+            print("editting staff data")
+            db = pymysql.connect(host=self.DATABASEIP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
+                                 database=self.DATABASE)
+            cur = db.cursor()
+            sql = 'update staff set sName = ' + '%s' + ' ,sBirthdate = ' + '%s' + ', sCNIC = ' + '%s' + ', sGender = ' + '%s' + ', sCountry = '+'%s' + ', sCity = '+'%s'+ ', sState = '\
+                  +'%s' + ', sStreetNo = '+'%s'+ ', sHouseNo = '+'%s' + ', sEmail = '+'%s'+ ', sPassword = '+'%s' + ', sPhoneNo = '+'%s where staffID = ' +'%s'
+            args = (name,DOB,CNIC,gender,country,city,state, streetNo,houseNo,email,password,phoneNo,staff_ID)
+            cur.execute(sql, args)
+            data = cur.fetchone();
+            edited = True
+        except Exception as e:
+            print(e)
+            print("some error")
+        finally:
+            if (db != None):
+                db.commit()
+            return edited
 
 
     def showFeedBack(self):

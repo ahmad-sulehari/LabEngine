@@ -1,6 +1,10 @@
-from flask import Flask,render_template,url_for,request,redirect
+from flask import Flask,render_template,url_for,request,redirect,session
 app = Flask(__name__)
+from DBHandler import DBHandler
 
+app.config.from_object('config')
+app.secret_key=app.config["SECRET_KEY"]
+db = DBHandler(app.config["DATABASE_IP"], app.config["DB_USER"], app.config["DB_PASSWORD"], app.config["DATABASE"])
 
 @app.route("/")
 def index():
@@ -18,15 +22,45 @@ def patientProfile():
         return render_template('patient.html')
 
 
-@app.route("/admin",methods=['POST'])
-def dataEntry():
-    if request.method == 'POST':
-        return render_template('Patient_Data_Entry.html')
+@app.route("/staffLogin",methods=['POST'])
+def showWorkerProfile():
+    staff_ID = request.form.get('staffID')
+    print(staff_ID)
+    session["staffID"] = staff_ID
+    profile_data = db.getStaffData(staff_ID)
+    return render_template('worker.html', data = profile_data)
 
-@app.route("/WorkerProfile",methods=['POST'])
-def new():
+
+@app.route("/editWorkerProfile",methods=['POST'])
+def editWorkerProfile():
+    staff_ID = session["staffID"]
+    print(staff_ID)
+    name = request.form.get('name')
+    DOB = request.form.get('DOB')
+    CNIC = request.form.get('CNIC')
+    gender = request.form.get('gender')
+    country = request.form.get('country')
+    city = request.form.get('city')
+    state = request.form.get('state')
+    streetNo = request.form.get('streetNo')
+    houseNo = request.form.get('houseNo')
+    email = request.form.get('email')
+    password = request.form.get('password')
+    phoneNo = request.form.get('phoneNo')
+    salary = request.form.get('salary')
+
+    edited = db.editStaffData(staff_ID,name,DOB,CNIC,gender,country,city,state,streetNo,houseNo,email,password,phoneNo,salary)
+    profile_data = db.getStaffData(staff_ID)
+    
+    return render_template('worker.html', data=profile_data)
+
+
+
+@app.route('/WorkerProfile',methods=['POST', 'GET'])
+def dataEntry():
     #id,name,birthdate,cnic,gender,country,city,state,streetno,house no,email,password,phone number,subject,message
     name = request.form.get('pname')
+    print(name)
     dateOfBirth = request.form.get('DOB')
     CNIC = request.form.get('p_cnic')
     gender = request.form.get('pgender')
@@ -37,26 +71,29 @@ def new():
     housenumber = request.form.get('house')
     email = request.form.get('email')
     phoneNumber = request.form.get('phoneNumber')
-
-
+    inserted = db.insertPatient(name,dateOfBirth,CNIC,gender,country,city,state,street,housenumber,email,phoneNumber)
+    #patient personal data entry
+    #testrecords
+    #
+    #report
     areaCode = request.form.get('areaCode')
     doctorsName = request.form.get('doctorsName')
     testName = request.form.get('testName')
-    
+    if(inserted):
+        print("Record is inserted")
     print(name)
     return render_template('new.html',name=name, pgender=gender,testName=testName)
 
-@app.route("/worker")
-def workerProfile():
-    return render_template('Worker_Profile.html')
+@app.route("/patientData")
+def patientDataEntry():
+    return render_template('Patient_Data_Entry.html')
 
 
 @app.route("/patientRecord")
 def patientRecord():
     return render_template('patientRecord.html')
 
-<<<<<<< HEAD
-=======
+
 @app.route('/feedback', methods=['POST'])
 def feedback():
     error = None
@@ -109,54 +146,6 @@ def userFeedBack():
     return render_template('stock.html', result=result)
 
 
-
-
-
-@app.route('/updateStock', methods=['POST'])
-def feedback():
-    error = None
-    db = None
-    try:
-
-        mask = request.form['noFMasks']
-        gloves = request.form['noFGloves']
-        containers = request.form['noFContainers']
-        swabs = request.form['noFSwabs']
-        syringes = request.form['noFSyringes']
-        glassware = request.form['noFGlassWare']
-        sanitizors = request.form['noFSanitizors']
-        cottonPkg = request.form['noFCottonPkg']
-        reagents = request.form['noFReagents']
-
-        db = DBHandler(app.config["DATABASEIP"], app.config["DB_USER"], app.config["DB_PASSWORD"],
-                       app.config["DATABASE"])
-        result1 = db.showStockView()
-        if(result1!=None):
-            mask=mask+result1[2]
-            gloves= gloves + result1[3]
-            containers = containers + result1[4]
-            swabs = swabs + result1[5]
-            syringes = syringes + result1[6]
-            glassware = glassware + result1[7]
-            sanitizors= sanitizors + result1[8]
-            cottonPkg = cottonPkg + result1[9]
-            reagents = reagents + result1[10]
-            result2=db.insertStock(mask, gloves,containers,swabs,syringes,glassware,sanitizors,cottonPkg,reagents)
-            if (result2 == True):
-                flash("Stock is successfully updated!")
-            else:
-                flash("Stock is not updated!")
-            return redirect(url_for('admin'))
-        else:
-            flash("Stock is not updated!")
-            return redirect(url_for('admin'))
-        
-    except Exception as e:
-        print(e)
-        error = str(e)
-        return redirect(url_for('admin'))
-
-
 @app.route("/deleteStaff", methods=["GET", "POST"])
 def deleteStaff():
     staffID = request.form["staffID"]
@@ -174,11 +163,5 @@ def deleteStaff():
     return render_template('deleteUser.html', error=error)
 
 
-
-
-
-
-
->>>>>>> 3683ee9a22e71c1ac353b750e9091f6ac46f2aed
 if __name__ == '__main__':
     app.run(debug=True)
