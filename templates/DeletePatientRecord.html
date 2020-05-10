@@ -124,17 +124,14 @@
   <form action="/deletePatient" onsubmit="return confirm('Are You Sure You Want to Delete the User and All its Data?');" method="post" class="needs-validation" novalidate>
     <div class="form-group">
       <label style="color: black"><b>Patient Name</b></label>
-<<<<<<< HEAD
-      <input type="text" name="pName" class="form-control br-radius-zero" id="pname" placeholder="Patient Name" />
+
         <div class="form-group">
       <label style="color: black"><b>Enter Patient ID</b></label>
       <input type="text" name="patientID" class="form-control br-radius-zero" id="pid" placeholder="Patient ID"/>
-=======
       <input type="text" name="pname" class="form-control br-radius-zero" id="pname" placeholder="Patient Name" />
         <div class="form-group">
       <label style="color: black"><b>Enter Patient ID</b></label>
       <input type="text" name="pid" class="form-control br-radius-zero" id="pid" placeholder="Patient ID"/>
->>>>>>> 09dcef5ea2e4184412df2cf9e0617eba224f829c
     </div>
 
     <div class="row">
@@ -147,11 +144,13 @@
     {% elif error=='unsuccessfull': %}
         <b><h6 style="color: red">This Patient Does not Exist or Entered Data is False!</h6></b>
     {% endif %}
-  </form>
 </div>
 
 
             </div>
+      </form>
+            </div>
+        </div>
             </div>
 
         </section>
