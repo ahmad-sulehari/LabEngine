@@ -19,7 +19,7 @@ class DBHandler:
         cursor = None
         insert = False
         try:
-            db = pymysql.connect(host='localhost', port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
+            db = pymysql.connect(host=DATABASE_IP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
                                  database=self.DATABASE)
             cur = db.cursor()
             sql = 'update patient set subject=%s, message=%s where patientID=%s'
@@ -41,7 +41,7 @@ class DBHandler:
         db = None
         cursor = None
         try:
-            db = pymysql.connect(host='localhost', port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
+            db = pymysql.connect(host=DATABASE_IP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
                                     database=self.DATABASE)
             cur = db.cursor()
             sql = 'select itemQuantity from stock'
@@ -56,7 +56,7 @@ class DBHandler:
         cursor = None
         insert = False
         try:
-            db = pymysql.connect(host='localhost', port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
+            db = pymysql.connect(host=DATABASE_IP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
                                  database=self.DATABASE)
             cur = db.cursor()
             sql = 'update stock set itemQuantity =40 '
@@ -97,12 +97,11 @@ class DBHandler:
 
 
 
-
-    def getPatientID(self,id):
+    def getPatientID(self, id):
         db = None
         cursor = None
         try:
-            db = pymysql.connect(host=self.DATABASE_IP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
+            db = pymysql.connect(host=DATABASE_IP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
                                  database=self.DATABASE)
             cur = db.cursor()
             sql = 'select patientID from patient where patientID = %s'
@@ -150,7 +149,7 @@ class DBHandler:
         db = None
         cursor = None
         try:
-            db = pymysql.connect(host='localhost', port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
+            db = pymysql.connect(host=DATABASE_IP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
                                  database=self.DATABASE)
             cur = db.cursor()
             sql = 'Delete from staff where staffID = %s'
@@ -169,7 +168,7 @@ class DBHandler:
         db = None
         cursor = None
         try:
-           db = pymysql.connect(host='localhost', port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
+           db = pymysql.connect(host=DATABASE_IP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
                                  database=self.DATABASE)
            cur = db.cursor()
            sql = 'DELETE FROM patient WHERE patientID = %s'
@@ -205,11 +204,12 @@ class DBHandler:
                 db.commit()
             return result
 
+
     def showStockView(self):
         db = None
         cursor = None
         try:
-            db = pymysql.connect(host='localhost', port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
+            db = pymysql.connect(host=DATABASE_IP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
                                  database=self.DATABASE)
             cur = db.cursor()
             print("here")
@@ -253,11 +253,12 @@ class DBHandler:
         try:
             db = pymysql.connect(host=self.DATABASE_IP,port=3306,user=self.DB_USER,password=self.DB_PASSWORD,database=self.DATABASE)
             cur = db.cursor()
-            sql = 'select sPassword from staff where patientID=%s'
+            sql = 'select pPassword from patient where patientID=%s'
             args = (id)
             done = cur.execute(sql,args)
             tuple = cur.fetchone()
-            passwd = tuple[0]
+            if tuple:
+                passwd = tuple[0]
             if done:
                 if password == passwd :
                     valid =True
@@ -290,4 +291,3 @@ class DBHandler:
             if db != None:
                 db.commit()
         return valid
-

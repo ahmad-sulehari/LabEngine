@@ -19,11 +19,11 @@
   </head>
 <body>
  <nav class="navbar navbar-expand-md bg-transparent navbar-dark">
-  <a class="navbar-brand " href="index.html"> <img src="../static/img/Logo_for_LIGHT_Background.png" alt="Logo" style="width:60px;"></a>
+  <a class="navbar-brand " href="{{url_for('index')}}"> <img src="../static/img/Logo_for_LIGHT_Background.png" alt="Logo" style="width:60px;"></a>
   </nav>
 
 
-
+<span>{{ error }}</span>
       <div class="form">
           <img src="./static/img/Logo_for_LIGHT_Background.png" id="formLogo" >
           <br>
@@ -36,13 +36,13 @@
           <div id="user">
             <h1 class="heading">Welcome Back</h1>
 
-            <form action="/patient" method="POST">
+            <form action="{{url_for('login')}}" method="POST">
 
             <div class="field-wrap">
               <label>
                 Patient ID<span class="req">*</span>
               </label>
-              <input type="email" name="email" required />
+              <input type="text" name="ID" required />
             </div>
 
             <div class="field-wrap">
@@ -62,13 +62,13 @@
           <div id="adm">
             <h1 class="heading">Welcome Back Staff</h1>
 
-            <form action="/admin" method="POST">
+            <form action="{{ url_for('login')}}" method="POST">
 
               <div class="field-wrap">
               <label>
                 Staff ID<span class="req">*</span>
               </label>
-              <input name="email" type="email"required />
+              <input name="ID" type="text" required />
             </div>
 
             <div class="field-wrap">
