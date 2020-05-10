@@ -1,4 +1,4 @@
-from flask import Flask,render_template,url_for,request,redirect,g,session
+from flask import Flask,render_template,url_for,request,redirect,g,session,Blueprint,flash
 import os,smtplib
 from DBHandler import DBHandler
 
@@ -34,8 +34,6 @@ def login():
             return redirect(url_for('patient',isValid=True))
         else:
             return redirect(url_for('staff',isValid=True))
-
-
 
 
 def validate():
@@ -95,11 +93,13 @@ def failure():
     return render_template('404.html')
 
 
-@app.route("/WorkerProfile",methods=['POST'])
+
+@app.route("/WorkerProfile", methods=['GET','POST'])
 def new():
     name = request.form.get('q4_fullName4');
     print(name)
-    return render_template('new.html',name=name)
+    return render_template('new.html', name=name)
+
 
 @app.route("/worker")
 def workerProfile():
@@ -110,29 +110,28 @@ def workerProfile():
 def patientRecord():
     return render_template('patientRecord.html')
 
+
 @app.route('/feedback', methods=['POST'])
 def feedback():
     error = None
     db = None
     try:
-        name = request.form['name']
-        email = request.form['email']
-        subject = request.form['subject']
-        message = request.form['message']
-        db = DBHandler(app.config["DATABASEIP"], app.config["DB_USER"], app.config["DB_PASSWORD"],
-                       app.config["DATABASE"])
-        result1=db.getUserId()
+        name = request.form.get('name')
+        email = request.form.get('email')
+        subject = request.form.get('subject')
+        message = request.form.get('message')
+        result1 = db.getPatientID2(name,email)
         if (result1 != None):
             result2 = db.insertFeedback(id, subject, message)
         else:
-            flash="This patientID is invalid"
-            return redirect(url_for('index'),anchor='feedback')
+            flash("This patientID is invalid")
+            return redirect(url_for('index'))
 
         if (result2 != True):
             flash("Feedback Not Sent!")
         else:
             flash("Your feedback have been Sent!")
-            return redirect(url_for('index', _anchor='feedBack'))
+            return redirect(url_for('index'))
 
     except Exception as e:
         print(e)
@@ -140,28 +139,16 @@ def feedback():
         return redirect(url_for('index', _anchor='feedBack'))
 
 
-
-
 @app.route('/checkFeedbacks', methods=['GET', 'POST'])
 def pFeedBack():
-    db = DBHandler(app.config["DATABASEIP"], app.config["DB_USER"], app.config["DB_PASSWORD"],
-                   app.config["DATABASE"])
     result = db.showFeedBack()
-    return render_template('feedbacks.html', result=result)
-
-
-
+    return render_template('feedback.html', result=result)
 
 
 @app.route('/stockView', methods=['GET', 'POST'])
 def stockView():
-    db = DBHandler(app.config["DATABASEIP"], app.config["DB_USER"], app.config["DB_PASSWORD"],
-                   app.config["DATABASE"])
     result = db.showStockView()
     return render_template('stock.html', result=result)
-
-
-
 
 
 @app.route('/updateStock', methods=['POST'])
@@ -169,62 +156,49 @@ def updateStock():
     error = None
     db = None
     try:
-
-        mask = request.form['noFMasks']
-        gloves = request.form['noFGloves']
-        containers = request.form['noFContainers']
-        swabs = request.form['noFSwabs']
-        syringes = request.form['noFSyringes']
-        glassware = request.form['noFGlassWare']
-        sanitizors = request.form['noFSanitizors']
-        cottonPkg = request.form['noFCottonPkg']
-        reagents = request.form['noFReagents']
-
-        db = DBHandler(app.config["DATABASEIP"], app.config["DB_USER"], app.config["DB_PASSWORD"],
-                       app.config["DATABASE"])
-        result1 = db.showStockView()
-        if(result1!=None):
-            mask=mask+result1[2]
-            gloves= gloves + result1[3]
-            containers = containers + result1[4]
-            swabs = swabs + result1[5]
-            syringes = syringes + result1[6]
-            glassware = glassware + result1[7]
-            sanitizors= sanitizors + result1[8]
-            cottonPkg = cottonPkg + result1[9]
-            reagents = reagents + result1[10]
-            result2=db.insertStock(mask, gloves,containers,swabs,syringes,glassware,sanitizors,cottonPkg,reagents)
-            if (result2 == True):
-                flash("Stock is successfully updated!")
-            else:
-                flash("Stock is not updated!")
-            return redirect(url_for('admin'))
+        result2 = db.insertStock()
+        if (result2 == True):
+            print("Stock is successfully updated!")
+            flash("Stock is successfully updated!")
         else:
             flash("Stock is not updated!")
             return redirect(url_for('admin'))
-
     except Exception as e:
         print(e)
         error = str(e)
-        return redirect(url_for('admin'))
+        return render_template('admin.html')
 
 
-@app.route("/deleteStaff", methods=["GET", "POST"])
+@app.route('/deleteStaff', methods=['GET', 'POST'])
 def deleteStaff():
-    staffID = request.form["staffID"]
-    cnic = request.form["cnic"]
+    staffID = request.form.get('staffID')
+    cnic = request.form.get('cnic')
     error = None
     db = None
-    db = DBHandler(app.config["DATABASEIP"], app.config["DB_USER"], app.config["DB_PASSWORD"], app.config["DATABASE"])
-    id = db.getStaffID(staffID,cnic)
+    db = DBHandler(app.config["DATABASE_IP"], app.config["DB_USER"], app.config["DB_PASSWORD"],
+                   app.config["DATABASE"])
+    id = db.getStaffID(staffID, cnic)
     if (id == None):
-        error="This id is not exit"
+        flash("This id is not exit")
     else:
         db.deleteStaff(id)
-        error='successfull'
+        error = 'successfull'
+        flash("Staff record is successfully removed")
+    return render_template('index.html', error=error)
 
-    return render_template('deleteUser.html', error=error)
-
+@app.route('/deletePatient', methods=['GET','POST'])
+def deletePatient():
+    patientID = request.form.get('pid')
+    pName = request.form.get('pname')
+    error = None
+    id = db.getPatientID(patientID)
+    if (id == None):
+        flash("This id is not exit")
+    else:
+        db.deletePatient(id)
+        error = 'successfull'
+        flash("Patient record is successfully removed")
+    return render_template('index.html', error=error)
 
 @app.route('/dropsession')
 def drop_session():
@@ -233,4 +207,4 @@ def drop_session():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+   app.run(debug=True)
