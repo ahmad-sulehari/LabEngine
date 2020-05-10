@@ -1,11 +1,4 @@
-<<<<<<< HEAD
-from flask import Flask, request, render_template, url_for, redirect, sessions, session, Blueprint, flash
-from DBHandler import DBHandler
-
-app = Flask(__name__)
-app.config.from_object('config')
-=======
-from flask import Flask,render_template,url_for,request,redirect,g,session
+from flask import Flask,render_template,url_for,request,redirect,g,session,flash
 import os,smtplib
 from DBHandler import DBHandler
 
@@ -23,11 +16,9 @@ def before_request():
     if 'ID' in session:
         g.ID=session['ID']
 
->>>>>>> d15476f780dbd43d1c309ef21db9702fa8a40897
-
 @app.route("/")
 def index():
-    return render_template('index.html')
+    return render_template('admin.html')
 
 
 @app.route("/login",methods=['GET','POST'])
@@ -37,11 +28,6 @@ def login():
     return render_template('login.html')
 
 
-<<<<<<< HEAD
-@app.route("/patient", methods=['GET','POST'])
-def patientProfile():
-    if request.method == 'POST':
-=======
 def validate():
     try:
         session.pop('ID',None)
@@ -69,17 +55,16 @@ def validate():
 @app.route("/patient/<isValid>")
 def patient(isValid=False):
     if isValid:
->>>>>>> d15476f780dbd43d1c309ef21db9702fa8a40897
         return render_template('patient.html')
     return redirect(url_for('login'))
 
 
-<<<<<<< HEAD
+
 @app.route("/admin", methods=['POST'])
 def dataEntry():
     if request.method == 'POST':
         return render_template('Patient_Data_Entry.html')
-=======
+
 @app.route("/Staff/<isValid>")
 def staff(isValid=False):
     if isValid:
@@ -103,7 +88,6 @@ def admin(isValid=False):
 def failure():
     return render_template('404.html')
 
->>>>>>> d15476f780dbd43d1c309ef21db9702fa8a40897
 
 
 @app.route("/WorkerProfile", methods=['GET','POST'])
@@ -173,35 +157,21 @@ def stockView():
 def updateStock():
     error = None
     db = None
-    try:
-        db = DBHandler(app.config["DATABASE_IP"], app.config["DB_USER"], app.config["DB_PASSWORD"],
+    db = DBHandler(app.config["DATABASE_IP"], app.config["DB_USER"], app.config["DB_PASSWORD"],
                    app.config["DATABASE"])
-        result2 = db.insertStock()
-        if (result2 == True):
-            print("Stock is successfully updated!")
-            flash("Stock is successfully updated!")
-        else:
-            flash("Stock is not updated!")
-<<<<<<< HEAD
-        render_template('admin.html')
-=======
-            return redirect(url_for('admin'))
-
->>>>>>> d15476f780dbd43d1c309ef21db9702fa8a40897
-    except Exception as e:
-        print(e)
-        error = str(e)
-        return render_template('admin.html')
-
+    result2 = db.insertStock()
+    if (result2 == True):
+        print("Stock is successfully updated!")
+        flash("Stock is successfully updated!")
+    else:
+        flash("Stock is not Updated!")
+    return render_template('admin.html')
 
 @app.route('/deleteStaff', methods=['GET', 'POST'])
 def deleteStaff():
     staffID = request.form.get('staffID')
     cnic = request.form.get('cnic')
     error = None
-    db = None
-    db = DBHandler(app.config["DATABASE_IP"], app.config["DB_USER"], app.config["DB_PASSWORD"],
-                   app.config["DATABASE"])
     id = db.getStaffID(staffID, cnic)
     if (id == None):
         flash("This id is not exit")
@@ -211,14 +181,12 @@ def deleteStaff():
         flash("Staff record is successfully removed")
     return render_template('index.html', error=error)
 
+
 @app.route('/deletePatient', methods=['GET','POST'])
 def deletePatient():
     patientID = request.form.get('pid')
     pName = request.form.get('pname')
     error = None
-    db = None
-    db = DBHandler(app.config["DATABASE_IP"], app.config["DB_USER"], app.config["DB_PASSWORD"],
-                   app.config["DATABASE"])
     id = db.getPatientID(patientID)
     if (id == None):
         flash("This id is not exit")
