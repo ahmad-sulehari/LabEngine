@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Worker Profile</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="../static/css/style_profile.css">
+<link rel="icon" type="img/ico" href="../static/img/128.ico">
+
+</head>
+<body>
+<div class="collapse navbar-collapse navbar-right" id="myNavbar">
+<nav class="navbar navbar-default navbar-fixed-top">
+ <a class="navbar-brand " href="index.html"> <img src="../static/img/Logo_for_LIGHT_Background.png" alt="Logo" style="width:100px;"></a>
+<br><br>
+<li class="active"><a href="/patientRecord" style="text-decoration: none; background-color: white; color:black; font-size:23px; font-style:bold">Patient Data Entry</a></li>
+<li class="active"><a href="#banner" style="text-decoration: none; background-color: white; color:black; font-size:23px; font-style:bold">Patient Reports</a></li>
+<li class="active"><a href="#banner" style="text-decoration: none; background-color: white; color:black; font-size:23px; font-style:bold">Test Records</a></li>
+
+<li class="active"><a href="/dropsession" style="text-decoration: none; background-color: white; color:black; font-size:23px; font-style:bold">Logout</a></li>
+
+</nav>
+</div>
+
+    <div class="main">
+
+        <section class="signup">
+            <!-- <img src="images/Lab1.jpg" alt=""> -->
+            <div class="container">
+                <div class="signup-content">
+                    <form method="POST" action="/editWorkerProfile" id="signup-form" class="signup-form">
+                        <h2 class="form-title">Your Profile</h2>
+                        <div class="form-group">
+                                <label class="form-label form-label-left form-label-auto" id="label_01" style="font-size:20px; color:grey;">Staff ID</label>
+                                <input type="text" class="form-input" name="id" id="id"  value="{{data[0]}}"  readonly/>
+                            <p style = "color:red; font-size:13px">You cannot edit your staff ID</p>
+                        </div>
+                        <div class="form-gorup">
+                                <label class="form-label form-label-left form-label-auto" id="label_02" style="font-size:20px; color:grey;">Name</label>
+                                <input type="text" class="form-input" name="name" id="name" value="{{data[1]}}" required/>
+                            </div>
+                        <div class="form-group">
+                            <label class="form-label form-label-left form-label-auto" id="label_3" style="font-size:20px; color:grey;">Date Of Birth </label>
+                        <input type="date" class="form-input" name="DOB" id="DOB" value="{{data[2]}}" required/>
+
+                        </div>
+
+                        <div class="form-group">
+                                <label class="form-label form-label-left form-label-auto" id="label_04" style="font-size:20px; color:grey;">CNIC</label>
+                                <input type="text" class="form-input" name="CNIC" id="CNIC"  value="{{data[3]}}"  required/>
+                        </div>
+                        <div class="form-gorup">
+                                <label class="form-label form-label-left form-label-auto" id="label_05" style="font-size:20px; color:grey;">Gender</label>
+                                <input type="text" class="form-input" name="gender" id="gender" value="{{data[4]}}" readonly />
+                            </div>
+                        <div class="form-group">
+                            <label class="form-label form-label-left form-label-auto" id="label_06" style="font-size:20px; color:grey;">Country </label>
+                        <input type="text" class="form-input" name="country" id="country" value="{{data[5]}}"  required/>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label form-label-left form-label-auto" id="label_6.1" style="font-size:20px; color:grey;">City </label>
+                        <input type="text" class="form-input" name="city" id="city" value="{{data[6]}}" required />
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label form-label-left form-label-auto" id="label_06.2" style="font-size:20px; color:grey;">Province/State </label>
+                        <input type="text" class="form-input" name="state" id="state" value="{{data[7]}}"  required/>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label form-label-left form-label-auto" id="label_06.3" style="font-size:20px; color:grey;">Street No </label>
+                        <input type="text" class="form-input" name="streetNo" id="streetNo" value="{{data[8]}}"  required/>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label form-label-left form-label-auto" id="label_06.4" style="font-size:20px; color:grey;">House No </label>
+                        <input type="text" class="form-input" name="houseNo" id="houseNo" value="{{data[9]}}"  required/>
+                        </div>
+                        <div class="form-gorup">
+                                <label class="form-label form-label-left form-label-auto" id="label_07" style="font-size:20px; color:grey;">Email</label>
+                                <input type="email" class="form-input" name="email" id="email" value="{{data[10]}}" required/>
+                            </div>
+                        <div class="form-group">
+                            <label class="form-label form-label-left form-label-auto" id="label_08" style="font-size:20px; color:grey;">Password </label>
+                        <input type="text" class="form-input" name="password" id="password" value="{{data[11]}}" required/>
+                        </div>
+                        <div class="form-gorup">
+                                <label class="form-label form-label-left form-label-auto" id="label_09" style="font-size:20px; color:grey;">Phone number</label>
+                                <input type="text" class="form-input" name="phoneNo" id="phoneNo" value="{{data[12]}}"  required/>
+                            </div>
+                        <div class="form-group">
+                            <label class="form-label form-label-left form-label-auto" id="label_10" style="font-size:20px; color:grey;">Salary </label>
+                        <input type="number" class="form-input" name="salary" id="salary" value="{{data[13]}}" readonly/>
+                            <p style = "color:red; font-size:13px">You cannot edit salary</p>
+                        </div>
+
+
+
+                        <div class="form-group">
+                            <input type="submit" name="submit" id="submit" class="form-submit" value="Reset Profile"/>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- JS -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
