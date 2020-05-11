@@ -177,7 +177,8 @@ def TestRecordEntry():
     inserted = db.insertTestRecord(testRecordID,session["reportID"],test,doctor,sampleType)
     if (inserted):
         print("Test Record is inserted")
-        
+        #stock is deducted
+        deducted = db.deductStock(test)
         return render_template('TestRecordsEntry.html')
     else:
         profile_data = db.getStaffData(session["staffID"])

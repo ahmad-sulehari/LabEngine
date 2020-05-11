@@ -368,6 +368,81 @@ class DBHandler:
                 db.commit()
             return insert
 
+    def deductStock(self,testName):
+        db = None
+        cursor = None
+        deducted = False
+        try:
+            print("Deducting stock")
+            db = pymysql.connect(host=self.DATABASE_IP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
+                                 database=self.DATABASE)
+            cur = db.cursor()
+            #name, price, masks, gloves, containers, swabs, syringes, glasswares, sanitizer, cotton, reagents
+            sql1 = 'select noFMasks, noFGloves, noFContainers, noFSwabs, noFSyringes, noFGlassWare,noFSanitizors, noFCottonPkg, noFReagents from test where testName = ' + '%s'
+            args1 = (testName)
+            cur.execute(sql1,args1)
+            noFMasks, noFGloves, noFContainers, noFSwabs, noFSyringes, noFGlassWare, noFSanitizors, noFCottonPkg, noFReagents = cur.fetchone()
+            print(noFContainers)
+            sql = 'select * from stock'
+            cur.execute(sql)
+            for row in cur.fetchall():
+                if row[1] == 'Masks':
+                    noFMasks = row[2] - noFMasks
+                    sql2 = 'update stock set itemQuantity =  ' + '%s where itemName = %s'
+                    args2 = (noFMasks,"Masks")
+                    cur.execute(sql2,args2)
+                elif row[1] == 'Gloves':
+                    noFGloves = row[2] - noFGloves
+                    sql2 = 'update stock set itemQuantity = '  + ' %s where itemName = %s'
+                    args2 = (noFGloves,"Gloves")
+                    cur.execute(sql2, args2)
+                elif row[1] == 'Containers':
+                    noFContainers = row[2] - noFContainers
+                    sql2 = 'update stock set itemQuantity = ' + '%s where itemName = %s'
+                    args2 = (noFContainers,"Containers")
+                    cur.execute(sql2, args2)
+                elif row[1] == 'Swabs':
+                    noFSwabs = row[2] - noFSwabs
+                    sql2 = 'update stock set itemQuantity = ' + '%s where itemName = %s'
+                    args2 = (noFSwabs,"Swabs")
+                    cur.execute(sql2, args2)
+                elif row[1] == 'Syringes':
+                    noFSyringes = row[2] - noFSyringes
+                    sql2 = 'update stock set itemQuantity = ' +'%s where itemName = %s'
+                    args2 = (noFSyringes,"Syringes")
+                    cur.execute(sql2, args2)
+                elif row[1] == 'Glassware':
+                    noFGlassWare = row[2] - noFGlassWare
+                    sql2 = 'update stock set itemQuantity = ' + '%s where itemName = %s'
+                    args2 = (noFGlassWare,"Glassware")
+                    cur.execute(sql2, args2)
+                elif row[1] == 'Sanitizer':
+                    noFSanitizors = row[2] - noFSanitizors
+                    sql2 = 'update stock set itemQuantity = ' +  '%s where itemName = %s'
+                    args2 = (noFSanitizors,"Sanitizer")
+                    cur.execute(sql2, args2)
+                elif row[1] == 'Cotton':
+                    noFCottonPkg = row[2] - noFCottonPkg
+                    sql2 = 'update stock set itemQuantity = ' + '%s where itemName = %s'
+                    args2 = (noFCottonPkg ,"Cotton")
+                    cur.execute(sql2, args2)
+                elif row[1] == 'Reagents':
+                    noFReagents = row[2] - noFReagents
+                    sql2 = 'update stock set itemQuantity = ' +'%s where itemName = %s'
+                    args2 = ( noFReagents ,"Reagents")
+                    cur.execute(sql2, args2)
+
+            if(noFMasks < 40 or noFGloves < 40 or noFContainers < 40 or noFSwabs < 40 or noFSyringes < 40 or noFGlassWare < 40 or noFSanitizors < 40 or noFCottonPkg < 40 or noFReagents < 40):
+                print("notify admin")
+            deducted = True
+        except Exception as e:
+            print(e)
+            print("some error")
+        finally:
+            if (db != None):
+                db.commit()
+            return deducted
+
     def insertTestRecord(self,testRecordID,reportID,test,doctor,sampleType):
         db = None
         cursor = None
