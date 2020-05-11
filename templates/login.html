@@ -11,19 +11,19 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="./static/css/bootstrap.min.css"/>
+        <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css"/>
 
         <script type="text/javascript" src="js/bootstrap.min.js">      </script>
-        <link rel="stylesheet" type="text/css"    href="./static/css/login.css">
+        <link rel="stylesheet" type="text/css"    href="../static/css/login.css">
 
   </head>
 <body>
  <nav class="navbar navbar-expand-md bg-transparent navbar-dark">
-  <a class="navbar-brand " href="index.html"> <img src="./static/img/Logo_for_LIGHT_Background.png" alt="Logo" style="width:60px;"></a>
+  <a class="navbar-brand " href="{{url_for('index')}}"> <img src="../static/img/Logo_for_LIGHT_Background.png" alt="Logo" style="width:60px;"></a>
   </nav>
 
 
-
+<span>{{ error }}</span>
       <div class="form">
           <img src="./static/img/Logo_for_LIGHT_Background.png" id="formLogo" >
           <br>
@@ -36,13 +36,18 @@
           <div id="user">
             <h1 class="heading">Welcome Back</h1>
 
-            <form action="/patient" method="POST">
+            <form action="{{url_for('login')}}" method="POST">
 
             <div class="field-wrap">
               <label>
                 Patient ID<span class="req">*</span>
               </label>
+<<<<<<< HEAD
               <input type="text" name="pid" required />
+=======
+              <input type="text" name="ID" required />
+
+>>>>>>> 89fa36b73bdcc69534af19961992675c248d7516
             </div>
 
             <div class="field-wrap">
@@ -62,14 +67,15 @@
           <div id="adm">
             <h1 class="heading">Welcome Back Staff</h1>
 
-            <form action="/admin" method="POST">
 
+            <form action="{{url_for('login')}}" method="POST">
               <div class="field-wrap">
               <label>
                 Staff ID<span class="req">*</span>
               </label>
-              <input name="email" type="email"required />
-            </div>
+
+              <input name="ID" type="text"required />
+               </div>
 
             <div class="field-wrap">
               <label>

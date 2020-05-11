@@ -1,3 +1,10 @@
 # Default ignored files
 /workspace.xml
+<<<<<<< HEAD
 /.ideas
+=======
+/.idea
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.xml
+>>>>>>> 89fa36b73bdcc69534af19961992675c248d7516
