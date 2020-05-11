@@ -44,13 +44,14 @@ def validate():
         if user_ID.startswith('ST'):
             isValid = db.validateStaff(user_ID,user_password)
             if isValid:
+                session['ID'] = user_ID
                 return redirect(url_for('staff',isValid=True))
             else:
                 return redirect(url_for('failure'))
                 #return render_template('login.html',error='wrong credentials')
         done = db.validatePatient(user_ID,user_password)
         if done:
-            session['ID'] = user_ID;
+            session['ID'] = user_ID
             return redirect(url_for('patient',isValid=True))
         else:
             return redirect(url_for('failure'))
