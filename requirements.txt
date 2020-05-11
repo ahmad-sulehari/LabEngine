@@ -3,8 +3,9 @@ cycler==0.10.0
 Flask==1.1.2
 Jinja2==2.11.2
 kiwisolver==1.0.1
-MarkupSafe==1.1.1
-matplotlib==3.0.2
+<<<<<<< HEAD
+MarkupSafe==1.1.0
+matplotlib==3.2.1
 numpy==1.15.4
 pyparsing==2.4.7
 python-dateutil==2.8.1

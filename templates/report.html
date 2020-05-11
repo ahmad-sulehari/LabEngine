@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/bootstrap.min.css">
+    <!-- Bootstrap core CSS -->
+
+
+    <!-- Custom styles for this template -->
+<style>
+body {
+  background-image: url("../static/img/aDtvU5n4b8.jpg");
+}
+
+</style>
+  </head>
+
+<body class="bg-light">
+
+ <nav class="navbar navbar-expand-md bg-transparent navbar-dark">
+  <a class="navbar-brand " href="index.html"> <img src="../static/img/Logo_for_LIGHT_Background.png" alt="Logo" style="width:70px; text-align:center"></a>
+  </nav>
+
+
+
+
+  <div class="container">
+  <div class="py-5 text-center">
+    <img class="d-block mx-auto mb-4" src="/docs/4.4/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+    <h2><b>Patient Test</b></h2>
+  </div>
+
+  <div class="row">
+      <div class="col-md-8 order-md-1">
+          <div class="container" style="  margin-bottom: 5vw;
+            padding: 30px;
+            max-width: 1100px;
+            height: 100%;
+            background-color: rgb(209, 221, 224);
+            border-radius: 20px;">
+  <div class="table-responsive">
+  <table class="table table-hover table-bordered table-striped table-light">
+
+    <tbody>
+    {% for rep in ptTestName %}
+       <tr class="row">
+        <td class="col" style="text-align: center; width: 1100px"><h4><b>{{rep}}</b></h4></td>
+       </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+  </div>
+</div>
+         <form action="/viewReport", method="post">
+         <h2 class="mb-3"><b>Test Name</b></h2>
+         <div class="row">
+         <div class="col-md-6 mb-3">
+         <label for="testname"><h3 style="text-decoration: none; color:black"><b>Enter</b></h3></label>
+         <input type="text" class="form-control" id="testname" placeholder="" required>
+         </div>
+         </div>
+         <div class="form-group">
+         <input type="submit" value="Proceed" class="btn btn-primary">
+         </div>
+
+      </form>
+    </div>
+  </div>
+</div>
+
+    
+
+<style>
+.footer {
+  position:;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: white;
+  color: blaack;
+  text-align: center;
+}
+</style>
+<div class="footer">
+<footer class="my-5 pt-5 text-muted text-center text-small">
+    <b><p class="mb-1">&copy; 1998-2020 Lab Engine</p></b>
+    <form action="/byebye">
+    <ul class="list-inline">
+         <li class="list-inline-item">
+         <div class="form-group">
+         <input type="submit" value="Logout" class="btn btn-primary">
+         </div>
+         </li>
+    </ul>
+    </form>
+  </footer>
+</div>
+<script src="js/bootstrap.min.js"></script>
+
+
+</body>
+</html>

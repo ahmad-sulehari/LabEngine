@@ -3,6 +3,13 @@
   <component name="JavaScriptSettings">
     <option name="languageLevel" value="ES6" />
   </component>
+<<<<<<< HEAD
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.8 (LabEngine)" project-jdk-type="Python SDK" />
+  <component name="PyCharmProfessionalAdvertiser">
+    <option name="shown" value="true" />
+  </component>
+</project>
+=======
   <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.7 (Hello World)" project-jdk-type="Python SDK" />
   <component name="PyCharmProfessionalAdvertiser">
     <option name="shown" value="true" />
@@ -11,3 +18,4 @@
     <option name="earlyReleasesAsUpgrades" value="true" />
   </component>
 </project>
+>>>>>>> 89fa36b73bdcc69534af19961992675c248d7516
