@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Worker Profile</title>
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="fonts/material-icon/css/material-design-iconic-font.min.css">
+
+    <!-- Main css -->
+    <link rel="stylesheet" href="../static/css/style_profile.css">
+<link rel="icon" type="img/ico" href="../static/img/128.ico">
+
+</head>
+<body>
+
+{{name}}
+{{pgender}}
+{{testName}}
+
+<div class="collapse navbar-collapse navbar-right" id="myNavbar">
+<nav class="navbar navbar-default navbar-fixed-top">
+ <a class="navbar-brand " href="index.html"> <img src="../static/img/Logo_for_LIGHT_Background.png" alt="Logo" style="width:100px;"></a>
+<br><br>
+
+
+</nav>
+</div>
+
+    <div class="main">
+
+        <section class="signup">
+            <!-- <img src="images/Lab1.jpg" alt=""> -->
+            <div class="container">
+                <div class="signup-content">
+                    <form method="POST" action="/recordEntry" id="signup-form" class="signup-form">
+                        <h2 class="form-title">Test Record Entry</h2>
+                         <li class="form-line jf-required" data-type="control_dropdown" id="id_29">
+                            <label class="form-label form-label-left form-label-auto" id="label_29" for="input_29">
+                            Test
+                            <span class="form-required">
+                            *
+                            </span>
+                            </label>
+                    <div id="cid_29" class="form-input jf-required">
+                        <select class="form-dropdown validate[required]" id="input_29" name="testName" style="width:150px" data-component="dropdown" required="" aria-labelledby="label_29">
+                            <option value="">  </option>
+                            <option value="Complete Blood Count"> Complete Blood Count </option>
+                            <option value="Corona Test"> Corona Test </option>
+                            <option value="Liver Function Test"> Liver Function Test </option>
+                            <option value="Gastric Fluid Analysis"> Gastric Fluid Analysis </option>
+                            <option value="Kidney Function Test"> Kidney Function Test </option>
+                            <option value="Hemoglobin A1C"> Haemoglobin A1C </option>
+                            <option value="Thyroid Function Test"> Thyroid Function Test </option>
+                        </select>
+                    </div>
+                        </li>
+                        <div class="form-gorup">
+                                <label class="form-label form-label-left form-label-auto" id="label_02" style="font-size:20px; color:grey;">Doctor's Name</label>
+                                <input type="text" class="form-input" name="doctor" id="doctor"  required/>
+                            </div>
+                        <div class="form-group">
+                            <label class="form-label form-label-left form-label-auto" id="label_3" style="font-size:20px; color:grey;">Sample Type </label>
+                        <input type="text" class="form-input" name="sample" id="sample"  required/>
+
+                        </div>
+
+
+                        <div class="form-group">
+                            <input type="submit" name="submit" id="record" class="form-submit" value="Next Record"/>
+
+                        </div>
+
+                    </form>
+                    <form method="POST" action="/endRecords">
+                    <div class="form-group">
+                            <input type="submit" name="submit" id="endRecord" class="form-submit" value="End Records"/>
+
+                        </div>
+                        </form>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- JS -->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

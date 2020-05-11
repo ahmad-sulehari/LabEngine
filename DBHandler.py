@@ -2,16 +2,8 @@ import pymysql
 import smtplib,os
 from flask import session
 
-import random
-import string
 
-def get_random_alphaNumeric_string(stringLength=8):
-    lettersAndDigits = string.ascii_letters + string.digits
-    return ''.join((random.choice(lettersAndDigits) for i in range(stringLength)))
 
-def get_random_Numeric_string(stringLength=8):
-    Digits = string.digits
-    return ''.join((random.choice(Digits) for i in range(stringLength)))
 
 class DBHandler:
     def __init__(self, DATABASE_IP, DB_USER, DB_PASSWORD, DATABASE):
@@ -302,7 +294,7 @@ class DBHandler:
                 db.commit()
         return valid
 
-    def insertPatient(self, name, dob, cnic, gender, country, city, state, streetNo, houseNo, email, phoneNo):
+    def insertPatient(self, pID,name, dob, cnic, gender, country, city, state, streetNo, houseNo, email, phoneNo,password):
         # id,name,birthdate,cnic,gender,country,city,state,streetNo,house no,email,password,phone number,subject,message
         db = None
         cursor = None
@@ -312,16 +304,8 @@ class DBHandler:
             db = pymysql.connect(host=self.DATABASE_IP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
                                  database=self.DATABASE)
             cur = db.cursor()
-            p_id = 'pt' + get_random_Numeric_string()
-            print(p_id)
-            session["p_id"] = p_id
-            reportID = 'rep' + get_random_Numeric_string(7)
-            print(reportID)
-            session["reportID"] = reportID
-            password = get_random_alphaNumeric_string()
-            print(password)
             sql = 'Insert into patient (patientID,pName,pBirthdate,pCNIC,pGender,pCountry,pCity,pState,pStreetNo,pHouseNo,pEmail,pPassword,pPhoneNo) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)'
-            args = (p_id, name, dob, cnic, gender, country, city, state, streetNo, houseNo, email, password, phoneNo)
+            args = (pID, name, dob, cnic, gender, country, city, state, streetNo, houseNo, email, password, phoneNo)
             cur.execute(sql, args)
             insert = True
         except Exception as e:
@@ -355,6 +339,61 @@ class DBHandler:
             if (db != None):
                 db.commit()
             return data
+
+    def insertReportEntry(self,reportID,pID,doctor,samples):
+        db = None
+        cursor = None
+        insert = False
+        try:
+            print("Inserting Report entry")
+            db = pymysql.connect(host=self.DATABASE_IP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
+                                 database=self.DATABASE)
+            cur = db.cursor()
+            sql1 = 'select staffID from staff where sName = ' + '%s'
+            args1 = (doctor)
+            cur.execute(sql1,args1)
+            staffID = cur.fetchone()
+            print(staffID[0])
+            print(samples[0])
+            sql = 'insert into report (reportID,patientID,staffID,noFSamples) values (%s,%s,%s,%s)'
+            args = (reportID,pID,staffID[0],int(samples))
+            cur.execute(sql, args)
+            insert = True
+            print("Report ka record insert ho gya")
+        except Exception as e:
+            print(e)
+            print("some error")
+        finally:
+            if (db != None):
+                db.commit()
+            return insert
+
+    def insertTestRecord(self,testRecordID,reportID,test,doctor,sampleType):
+        db = None
+        cursor = None
+        insert = False
+        try:
+            print("Inserting Test record")
+            db = pymysql.connect(host=self.DATABASE_IP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
+                                 database=self.DATABASE)
+            cur = db.cursor()
+            sql1 = 'select staffID from staff where sName = ' + '%s'
+            args1 = (doctor)
+            cur.execute(sql1,args1)
+            staffID = cur.fetchone()
+            print(staffID)
+            sql = 'insert into testrecord(testrecordID,reportID,testName,staffID,sampleType) values (%s,%s,%s,%s,%s)'
+            args = (testRecordID,reportID,test,staffID,sampleType)
+            cur.execute(sql, args)
+            insert = True
+        except Exception as e:
+            print(e)
+            print("some error")
+        finally:
+            if (db != None):
+                db.commit()
+            return insert
+
 
     def editStaffData(self, staff_ID, name, DOB, CNIC, gender, country, city, state, streetNo, houseNo, email, password,
                       phoneNo, salary):
