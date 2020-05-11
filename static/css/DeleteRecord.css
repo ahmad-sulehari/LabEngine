@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 /*
     Theme Name: Lab Engine
 */
@@ -141,7 +141,7 @@ banner
     background-color: rgba(12, 184, 182, 0.21);
 }
 .affix {
-    background-color: #ffffff !important;
+    background-color: #f8b9a6 !important;
 }
 .affix .navbar-nav > li > a:hover, .affix .navbar-nav > li > a:focus
 {
@@ -598,4 +598,3 @@ footer
         font-size: 24px;
     }
 }
->>>>>>> b70a8d878a877e50fa823b1a83caea77403b08b0

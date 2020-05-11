@@ -2,6 +2,8 @@ from flask import Flask,render_template,url_for,request,redirect,g,session,Bluep
 import os,smtplib
 from DBHandler import DBHandler
 
+import random
+import string
 
 app = Flask(__name__)
 
@@ -202,16 +204,60 @@ def dataEntry():
     housenumber = request.form.get('house')
     email = request.form.get('email')
     phoneNumber = request.form.get('phoneNumber')
-    inserted = db.insertPatient(name, dateOfBirth, CNIC, gender, country, city, state, street, housenumber, email,
-                                phoneNumber)
-    areaCode = request.form.get('areaCode')
-    doctorsName = request.form.get('doctorsName')
-    testName = request.form.get('testName')
+    samples = request.form.get('numberOfSamples')
+    doctor = request.form.get('doctor')
+    pID = 'pt' + get_random_Numeric_string(5)
+    print(pID)
+    session["pID"] = pID
+    reportID = 'rep' + get_random_Numeric_string(4)
+    print(reportID)
+    session["reportID"] = reportID
+    session["samples"] = samples
+    password = get_random_alphaNumeric_string(6)
+    print(password)
+    inserted = db.insertPatient(pID,name, dateOfBirth, CNIC, gender, country, city, state, street, housenumber, email,
+                                phoneNumber,password)
+
+    reportInserted = db.insertReportEntry(reportID,pID,doctor,samples)
     if (inserted):
         print("Record is inserted")
-    print(name)
-    return render_template('new.html', name=name, pgender=gender, testName=testName)
+        return render_template('TestRecordsEntry.html')
+    else:
+        profile_data = db.getStaffData(session["staffID"])
+        return render_template("worker.html",data=profile_data)
 
+
+
+@app.route('/recordEntry', methods=['POST'])
+def TestRecordEntry():
+    test = request.form.get('testName')
+    print(test)
+    doctor = request.form.get('doctor')
+    sampleType = request.form.get('sample')
+    testRecordID = 'tr' + get_random_Numeric_string(5)
+    print(testRecordID)
+    #session["testrecord"] = testRecordID
+    #reportID = 'rep' + get_random_Numeric_string(7)
+    #print(reportID)
+    #reportID =session["reportID"]
+    #session["samples"] = 0
+    samples = session["samples"]
+    print(samples)
+
+    inserted = db.insertTestRecord(testRecordID,session["reportID"],test,doctor,sampleType)
+    if (inserted):
+        print("Test Record is inserted")
+        #stock is deducted
+        deducted = db.deductStock(test)
+        return render_template('TestRecordsEntry.html')
+    else:
+        profile_data = db.getStaffData(session["staffID"])
+        return render_template("worker.html", data=profile_data)
+
+@app.route('/endRecords', methods=['GET','POST'])
+def endRecords():
+    profile_data = db.getStaffData(session["staffID"])
+    return render_template("worker.html", data=profile_data)
 
 @app.route("/admin/<isValid>")
 def admin(isValid=False):
@@ -326,6 +372,14 @@ def drop_session():
     session.pop('ID',None)
     return redirect(url_for('login'))
 
+#for random numbers
+def get_random_alphaNumeric_string(stringLength=8):
+    lettersAndDigits = string.ascii_letters + string.digits
+    return ''.join((random.choice(lettersAndDigits) for i in range(stringLength)))
+
+def get_random_Numeric_string(stringLength=8):
+    Digits = string.digits
+    return ''.join((random.choice(Digits) for i in range(stringLength)))
 
 if __name__ == '__main__':
    app.run(debug=True)

@@ -2,16 +2,6 @@ import pymysql
 import smtplib,os
 from flask import session
 
-import random
-import string
-
-def get_random_alphaNumeric_string(stringLength=8):
-    lettersAndDigits = string.ascii_letters + string.digits
-    return ''.join((random.choice(lettersAndDigits) for i in range(stringLength)))
-
-def get_random_Numeric_string(stringLength=8):
-    Digits = string.digits
-    return ''.join((random.choice(Digits) for i in range(stringLength)))
 
 class DBHandler:
     def __init__(self, DATABASE_IP, DB_USER, DB_PASSWORD, DATABASE):
@@ -20,7 +10,6 @@ class DBHandler:
         self.DB_PASSWORD = DB_PASSWORD
         self.DATABASE = DATABASE
 
-<<<<<<< HEAD
     def  __del__(self):
         print("Destructor")
 
@@ -420,7 +409,7 @@ class DBHandler:
                 db.commit()
         return valid
 
-    def insertPatient(self, name, dob, cnic, gender, country, city, state, streetNo, houseNo, email, phoneNo):
+    def insertPatient(self, pID,name, dob, cnic, gender, country, city, state, streetNo, houseNo, email, phoneNo,password):
         # id,name,birthdate,cnic,gender,country,city,state,streetNo,house no,email,password,phone number,subject,message
         db = None
         cursor = None
@@ -430,16 +419,8 @@ class DBHandler:
             db = pymysql.connect(host=self.DATABASE_IP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
                                  database=self.DATABASE)
             cur = db.cursor()
-            p_id = 'pt' + get_random_Numeric_string()
-            print(p_id)
-            session["p_id"] = p_id
-            reportID = 'rep' + get_random_Numeric_string(7)
-            print(reportID)
-            session["reportID"] = reportID
-            password = get_random_alphaNumeric_string()
-            print(password)
             sql = 'Insert into patient (patientID,pName,pBirthdate,pCNIC,pGender,pCountry,pCity,pState,pStreetNo,pHouseNo,pEmail,pPassword,pPhoneNo) values (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)'
-            args = (p_id, name, dob, cnic, gender, country, city, state, streetNo, houseNo, email, password, phoneNo)
+            args = (pID, name, dob, cnic, gender, country, city, state, streetNo, houseNo, email, password, phoneNo)
             cur.execute(sql, args)
             insert = True
         except Exception as e:
@@ -496,6 +477,7 @@ class DBHandler:
             return data
 
 
+
     def getptTestReportData(self, testid):
         db = None
         cursor = None
@@ -537,6 +519,135 @@ class DBHandler:
             if (db != None):
                 db.commit()
             return  result
+
+    def insertReportEntry(self,reportID,pID,doctor,samples):
+        db = None
+        cursor = None
+        insert = False
+        try:
+            print("Inserting Report entry")
+            db = pymysql.connect(host=self.DATABASE_IP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
+                                 database=self.DATABASE)
+            cur = db.cursor()
+            sql1 = 'select staffID from staff where sName = ' + '%s'
+            args1 = (doctor)
+            cur.execute(sql1,args1)
+            staffID = cur.fetchone()
+            print(staffID[0])
+            print(samples[0])
+            sql = 'insert into report (reportID,patientID,staffID,noFSamples) values (%s,%s,%s,%s)'
+            args = (reportID,pID,staffID[0],int(samples))
+            cur.execute(sql, args)
+            insert = True
+            print("Report ka record insert ho gya")
+        except Exception as e:
+            print(e)
+            print("some error")
+        finally:
+            if (db != None):
+                db.commit()
+            return insert
+
+    def deductStock(self,testName):
+        db = None
+        cursor = None
+        deducted = False
+        try:
+            print("Deducting stock")
+            db = pymysql.connect(host=self.DATABASE_IP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
+                                 database=self.DATABASE)
+            cur = db.cursor()
+            #name, price, masks, gloves, containers, swabs, syringes, glasswares, sanitizer, cotton, reagents
+            sql1 = 'select noFMasks, noFGloves, noFContainers, noFSwabs, noFSyringes, noFGlassWare,noFSanitizors, noFCottonPkg, noFReagents from test where testName = ' + '%s'
+            args1 = (testName)
+            cur.execute(sql1,args1)
+            noFMasks, noFGloves, noFContainers, noFSwabs, noFSyringes, noFGlassWare, noFSanitizors, noFCottonPkg, noFReagents = cur.fetchone()
+            print(noFContainers)
+            sql = 'select * from stock'
+            cur.execute(sql)
+            for row in cur.fetchall():
+                if row[1] == 'Masks':
+                    noFMasks = row[2] - noFMasks
+                    sql2 = 'update stock set itemQuantity =  ' + '%s where itemName = %s'
+                    args2 = (noFMasks,"Masks")
+                    cur.execute(sql2,args2)
+                elif row[1] == 'Gloves':
+                    noFGloves = row[2] - noFGloves
+                    sql2 = 'update stock set itemQuantity = '  + ' %s where itemName = %s'
+                    args2 = (noFGloves,"Gloves")
+                    cur.execute(sql2, args2)
+                elif row[1] == 'Containers':
+                    noFContainers = row[2] - noFContainers
+                    sql2 = 'update stock set itemQuantity = ' + '%s where itemName = %s'
+                    args2 = (noFContainers,"Containers")
+                    cur.execute(sql2, args2)
+                elif row[1] == 'Swabs':
+                    noFSwabs = row[2] - noFSwabs
+                    sql2 = 'update stock set itemQuantity = ' + '%s where itemName = %s'
+                    args2 = (noFSwabs,"Swabs")
+                    cur.execute(sql2, args2)
+                elif row[1] == 'Syringes':
+                    noFSyringes = row[2] - noFSyringes
+                    sql2 = 'update stock set itemQuantity = ' +'%s where itemName = %s'
+                    args2 = (noFSyringes,"Syringes")
+                    cur.execute(sql2, args2)
+                elif row[1] == 'Glassware':
+                    noFGlassWare = row[2] - noFGlassWare
+                    sql2 = 'update stock set itemQuantity = ' + '%s where itemName = %s'
+                    args2 = (noFGlassWare,"Glassware")
+                    cur.execute(sql2, args2)
+                elif row[1] == 'Sanitizer':
+                    noFSanitizors = row[2] - noFSanitizors
+                    sql2 = 'update stock set itemQuantity = ' +  '%s where itemName = %s'
+                    args2 = (noFSanitizors,"Sanitizer")
+                    cur.execute(sql2, args2)
+                elif row[1] == 'Cotton':
+                    noFCottonPkg = row[2] - noFCottonPkg
+                    sql2 = 'update stock set itemQuantity = ' + '%s where itemName = %s'
+                    args2 = (noFCottonPkg ,"Cotton")
+                    cur.execute(sql2, args2)
+                elif row[1] == 'Reagents':
+                    noFReagents = row[2] - noFReagents
+                    sql2 = 'update stock set itemQuantity = ' +'%s where itemName = %s'
+                    args2 = ( noFReagents ,"Reagents")
+                    cur.execute(sql2, args2)
+
+            if(noFMasks < 40 or noFGloves < 40 or noFContainers < 40 or noFSwabs < 40 or noFSyringes < 40 or noFGlassWare < 40 or noFSanitizors < 40 or noFCottonPkg < 40 or noFReagents < 40):
+                print("notify admin")
+            deducted = True
+        except Exception as e:
+            print(e)
+            print("some error")
+        finally:
+            if (db != None):
+                db.commit()
+            return deducted
+
+    def insertTestRecord(self,testRecordID,reportID,test,doctor,sampleType):
+        db = None
+        cursor = None
+        insert = False
+        try:
+            print("Inserting Test record")
+            db = pymysql.connect(host=self.DATABASE_IP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
+                                 database=self.DATABASE)
+            cur = db.cursor()
+            sql1 = 'select staffID from staff where sName = ' + '%s'
+            args1 = (doctor)
+            cur.execute(sql1,args1)
+            staffID = cur.fetchone()
+            print(staffID)
+            sql = 'insert into testrecord(testrecordID,reportID,testName,staffID,sampleType) values (%s,%s,%s,%s,%s)'
+            args = (testRecordID,reportID,test,staffID,sampleType)
+            cur.execute(sql, args)
+            insert = True
+        except Exception as e:
+            print(e)
+            print("some error")
+        finally:
+            if (db != None):
+                db.commit()
+            return insert
 
 
     def editStaffData(self, staff_ID, name, DOB, CNIC, gender, country, city, state, streetNo, houseNo, email, password,
