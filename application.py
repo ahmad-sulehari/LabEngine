@@ -32,7 +32,7 @@ def login():
         else:
             return render_template('login.html')
     else:
-        if g.ID.startswith('PT'):
+        if g.ID.startswith('pt'):
             return redirect(url_for('patient',isValid=True))
         else:
             return redirect(url_for('staff',isValid=True))
@@ -65,35 +65,34 @@ def validate():
         return redirect(url_for('failure'))
 
 
+
+#@app.route("/byebye")
+#def bye():
+#    session.clear()
+#    return render_template('login.html')
+
+
+#@app.route("/patientProfile",methods=['POST'])
+#def patientProfile():
+#   if request.method == 'POST':
+#      # session["pid"] = request.args.get('pid')
+#        # session["password"] = request.args.get('password')
 #
-# @app.route("/byebye")
-# def bye():
-#     session.clear()
-#     return render_template('login.html')
+#       pid = request.form.get('pid')
+#      session["pid"] = pid
+#        print(pid)
+#        # print(session["pid"])
+#        error = None
+#        try:
+#            print("patientProfile")
+#            pHistory = []
+#            pHistory = db.getpHistory(pid)
+#            return render_template('patient.html', pHistory=pHistory)
 #
-#
-#
-# @app.route("/patient",methods=['POST'])
-# def patientProfile():
-#     if request.method == 'POST':
-#         #session["pid"] = request.args.get('pid')
-#         #session["password"] = request.args.get('password')
-#
-#         pid = request.form.get('pid')
-#         session["pid"]=pid
-#         print(pid)
-#         #print(session["pid"])
-#         error = None
-#         try:
-#             print("patientProfile")
-#             pHistory = []
-#             pHistory = db.getpHistory(pid)
-#             return render_template('patient.html', pHistory=pHistory)
-#
-#         except Exception as e:
-#             print(e)
-#             error = str(e)
-#             return render_template('patient.html', pHistory=pHistory)
+#        except Exception as e:
+#            print(e)
+#            error = str(e)
+#            return render_template('patient.html', pHistory=pHistory)
 #
 
 @app.route("/report",methods=['POST','GET'])
@@ -101,7 +100,7 @@ def showReport():
     error = None
     try:
         print("pateinttestname_app.py")
-        ptReportid = db.getpReports(session["pid"])
+        ptReportid = db.getpReports(session["ID"])
         ptTestName = []
         ptTestName = db.getTestName(ptReportid)
         return render_template('report.html', ptTestName=ptTestName)
@@ -119,9 +118,9 @@ def getrepid():
     ptReportData = []
     try:
         print("getTestReportApp")
-        teststatus = db.getptTestReportStatus(session["testname"])
-        if(teststatus == 1):
-            testrecordid = db.getptTestReportid(session["testname"])
+        teststatus = db.getptTestReportStatus(testname)
+        if(teststatus):
+            testrecordid = db.getptTestReportid(testname)
             ptReportData = db.getptTestReportData(testrecordid)
             return render_template('viewreport.html', ptReportData=ptReportData)
         else:
@@ -132,13 +131,12 @@ def getrepid():
         error = str(e)
         return render_template('viewreport.html', ptReportData=ptReportData)
 
-
-
-
 @app.route("/patient/<isValid>")
 def patient(isValid=False):
     if isValid:
-        return render_template('patient.html')
+        pHistory = []
+        pHistory = db.getpHistory(session['ID'])
+        return render_template('patient.html', pHistory=pHistory)
     return redirect(url_for('login'))
 
 

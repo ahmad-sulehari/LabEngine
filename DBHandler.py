@@ -55,7 +55,7 @@ class DBHandler:
         cursor = None
         insert = False
         try:
-            db = pymysql.connect(host=DATABASE_IP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
+            db = pymysql.connect(host=self.DATABASE_IP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
                                  database=self.DATABASE)
             cur = db.cursor()
             sql = 'update patient set subject=%s, message=%s where patientID=%s'
@@ -101,7 +101,7 @@ class DBHandler:
         db = None
         cursor = None
         try:
-            db = pymysql.connect(host=DATABASE_IP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
+            db = pymysql.connect(host=self.DATABASE_IP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
                                     database=self.DATABASE)
             cur = db.cursor()
             sql = 'select itemQuantity from stock'
@@ -122,7 +122,7 @@ class DBHandler:
         cursor = None
         insert = False
         try:
-            db = pymysql.connect(host=DATABASE_IP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
+            db = pymysql.connect(host=self.DATABASE_IP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
                                  database=self.DATABASE)
             cur = db.cursor()
             sql = 'update stock set itemQuantity =40 '
@@ -167,7 +167,7 @@ class DBHandler:
         db = None
         cursor = None
         try:
-            db = pymysql.connect(host=DATABASE_IP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
+            db = pymysql.connect(host=self.DATABASE_IP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
                                  database=self.DATABASE)
             cur = db.cursor()
             sql = 'select * from patient where patientID=%s'
@@ -214,7 +214,7 @@ class DBHandler:
         db = None
         cursor = None
         try:
-            db = pymysql.connect(host=DATABASE_IP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
+            db = pymysql.connect(host=self.DATABASE_IP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
                                  database=self.DATABASE)
             cur = db.cursor()
             sql = 'Delete from staff where staffID = %s'
@@ -233,7 +233,7 @@ class DBHandler:
         db = None
         cursor = None
         try:
-           db = pymysql.connect(host=DATABASE_IP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
+           db = pymysql.connect(host=self.DATABASE_IP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
                                  database=self.DATABASE)
            cur = db.cursor()
            sql = 'Delete from patient where patientID = %s'
@@ -252,7 +252,6 @@ class DBHandler:
         db = None
         cursor = None
         try:
-
             db = pymysql.connect(host=self.DATABASE_IP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
                                  database=self.DATABASE)
             cur = db.cursor()
@@ -272,15 +271,15 @@ class DBHandler:
     def showStockView(self):
         db = None
         cursor = None
+        result = []
         try:
-            db = pymysql.connect(host=DATABASE_IP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
+            db = pymysql.connect(host=self.DATABASE_IP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
                                  database=self.DATABASE)
             cur = db.cursor()
             print("here")
             sql = 'Select * from stock'
             cur.execute(sql)
             result = cur.fetchall()
-
         except Exception as e:
             print(e)
             print("some error")
@@ -290,7 +289,7 @@ class DBHandler:
             return result
 
 
-     def getTestName(self, reportid):
+    def getTestName(self, reportid):
         db = None
         cursor = None
         tests = []
@@ -301,9 +300,9 @@ class DBHandler:
             cur = db.cursor()
             sql = 'Select testName from testrecord where reportID = ' + ' %s'
             args = (reportid)
-            cur.execute(sql,args)
+            cur.execute(sql, args)
             for row in cur.fetchall():
-               tests.append(row[0])
+                tests.append(row[0])
             print("DBgetTestname")
         except Exception as e:
             print(e)
@@ -313,11 +312,8 @@ class DBHandler:
                 db.commit()
             return tests
 
-
-
     def getptTestReportStatus(self, testname):
         db = None
-        result = None
         try:
             print("DBHandlergetptTestReportStatus")
             db = pymysql.connect(host=self.DATABASE_IP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
@@ -327,7 +323,7 @@ class DBHandler:
             sql = """Select status from testrecord where testName = %s"""
             print("Gussa na ker bhai chalja")
             args = (testname)
-            cur.execute(sql, (args,))
+            cur.execute(sql, args)
             print("Gussa na ker bhai chalja")
             result = cur.fetchone()
             print("Gussa na ker bhai chalja")
@@ -437,7 +433,7 @@ class DBHandler:
             print("DBHandlergetptTestReportid")
             db = pymysql.connect(host=self.DATABASE_IP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
                                  database=self.DATABASE)
-            cur = db.cursor(prepared = True)
+            cur = db.cursor()
             sql = 'select testRecordID from testrecord where testName=%s'
             args = (testname)
             cur.execute(sql, args)
@@ -472,7 +468,7 @@ class DBHandler:
             print(e)
             print("some error")
         finally:
-            if (db != None)
+            if (db != None):
                 db.commit()
             return data
 
@@ -518,7 +514,7 @@ class DBHandler:
         finally:
             if (db != None):
                 db.commit()
-            return  result
+            return result
 
     def insertReportEntry(self,reportID,pID,doctor,samples):
         db = None
