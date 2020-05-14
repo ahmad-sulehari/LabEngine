@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-from flask import Flask,render_template,url_for,request,redirect,g,session,flash
-=======
 from flask import Flask,render_template,url_for,request,redirect,g,session,Blueprint,flash
->>>>>>> 09dcef5ea2e4184412df2cf9e0617eba224f829c
 import os,smtplib
 from DBHandler import DBHandler
 
@@ -20,13 +16,9 @@ def before_request():
     if 'ID' in session:
         g.ID=session['ID']
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 09dcef5ea2e4184412df2cf9e0617eba224f829c
 @app.route("/")
 def index():
-    return render_template('admin.html')
+    return render_template('index.html')
 
 
 @app.route("/login",methods=['GET','POST'])
@@ -76,15 +68,12 @@ def patient(isValid=False):
     return redirect(url_for('login'))
 
 
-<<<<<<< HEAD
 
 @app.route("/admin", methods=['POST'])
 def dataEntry():
     if request.method == 'POST':
         return render_template('Patient_Data_Entry.html')
 
-=======
->>>>>>> 09dcef5ea2e4184412df2cf9e0617eba224f829c
 @app.route("/Staff/<isValid>")
 def staff(isValid=False):
     if isValid:
@@ -129,22 +118,25 @@ def patientRecord():
 
 @app.route('/feedback', methods=['POST'])
 def feedback():
+    db=None
     error = None
-    db = None
+    result1=None
+    result2=None
     try:
         name = request.form.get('name')
         email = request.form.get('email')
         subject = request.form.get('subject')
         message = request.form.get('message')
-        result1 = db.getPatientID2(name,email)
+        db = DBHandler('localhost', app.config["DB_USER"], app.config["DB_PASSWORD"],
+                       app.config["DATABASE"])
+        result1 = db.getPatientID2(name, email)
+        print("Aik lgani hai chal ja")
         if (result1 != None):
-            result2 = db.insertFeedback(id, subject, message)
-        else:
-            flash("This patientID is invalid")
-            return redirect(url_for('index'))
-
-        if (result2 != True):
-            flash("Feedback Not Sent!")
+            print("Aik lgani hai chal ja 2")
+            result2 = db.insertFeedback
+            if (result2 != True):
+                flash("Feedback Not Sent!")
+                return redirect(url_for('index'))
         else:
             flash("Your feedback have been Sent!")
             return redirect(url_for('index'))
@@ -170,10 +162,6 @@ def stockView():
 @app.route('/updateStock', methods=['POST'])
 def updateStock():
     error = None
-    db = None
-<<<<<<< HEAD
-    db = DBHandler(app.config["DATABASE_IP"], app.config["DB_USER"], app.config["DB_PASSWORD"],
-                   app.config["DATABASE"])
     result2 = db.insertStock()
     if (result2 == True):
         print("Stock is successfully updated!")
@@ -181,21 +169,6 @@ def updateStock():
     else:
         flash("Stock is not Updated!")
     return render_template('admin.html')
-=======
-    try:
-        result2 = db.insertStock()
-        if (result2 == True):
-            print("Stock is successfully updated!")
-            flash("Stock is successfully updated!")
-        else:
-            flash("Stock is not updated!")
-            return redirect(url_for('admin'))
-    except Exception as e:
-        print(e)
-        error = str(e)
-        return render_template('admin.html')
-
->>>>>>> 09dcef5ea2e4184412df2cf9e0617eba224f829c
 
 @app.route('/deleteStaff', methods=['GET', 'POST'])
 def deleteStaff():
