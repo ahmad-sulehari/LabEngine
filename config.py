@@ -1,5 +1,5 @@
+SECRET_KEY = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
 DATABASE_IP = 'localhost'
 DB_USER = 'root'
 DB_PASSWORD = '0334-9970264Pakistan124'
 DATABASE = 'labengine'
-SECRET_KEY = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'

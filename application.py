@@ -2,6 +2,8 @@ from flask import Flask,render_template,url_for,request,redirect,g,session,Bluep
 import os,smtplib
 from DBHandler import DBHandler
 
+import random
+import string
 
 app = Flask(__name__)
 
@@ -29,7 +31,7 @@ def login():
         else:
             return render_template('login.html')
     else:
-        if g.ID.startswith('PT'):
+        if g.ID.startswith('pt'):
             return redirect(url_for('patient',isValid=True))
         else:
             return redirect(url_for('staff',isValid=True))
@@ -40,16 +42,17 @@ def validate():
         session.pop('ID',None)
         user_ID = request.form['ID']
         user_password = request.form['password']
-        if user_ID.startswith('ST'):
+        if user_ID.startswith('st'):
             isValid = db.validateStaff(user_ID,user_password)
             if isValid:
+                session['ID'] = user_ID
                 return redirect(url_for('staff',isValid=True))
             else:
                 return redirect(url_for('failure'))
                 #return render_template('login.html',error='wrong credentials')
         done = db.validatePatient(user_ID,user_password)
         if done:
-            session['ID'] = user_ID;
+            session['ID'] = user_ID
             return redirect(url_for('patient',isValid=True))
         else:
             return redirect(url_for('failure'))
@@ -61,10 +64,78 @@ def validate():
         return redirect(url_for('failure'))
 
 
+
+#@app.route("/byebye")
+#def bye():
+#    session.clear()
+#    return render_template('login.html')
+
+
+#@app.route("/patientProfile",methods=['POST'])
+#def patientProfile():
+#   if request.method == 'POST':
+#      # session["pid"] = request.args.get('pid')
+#        # session["password"] = request.args.get('password')
+#
+#       pid = request.form.get('pid')
+#      session["pid"] = pid
+#        print(pid)
+#        # print(session["pid"])
+#        error = None
+#        try:
+#            print("patientProfile")
+#            pHistory = []
+#            pHistory = db.getpHistory(pid)
+#            return render_template('patient.html', pHistory=pHistory)
+#
+#        except Exception as e:
+#            print(e)
+#            error = str(e)
+#            return render_template('patient.html', pHistory=pHistory)
+#
+
+@app.route("/report",methods=['POST','GET'])
+def showReport():
+    error = None
+    try:
+        print("pateinttestname_app.py")
+        ptReportid = db.getpReports(session["ID"])
+        ptTestName = []
+        ptTestName = db.getTestName(ptReportid)
+        return render_template('report.html', ptTestName=ptTestName)
+
+    except Exception as e:
+        print(e)
+        error = str(e)
+        return render_template('report.html')
+
+@app.route("/viewReport",methods=['POST','GET'])
+def getrepid():
+    testname = request.form.get('testname')
+    session["testname"] = testname
+    error = None
+    ptReportData = []
+    try:
+        print("getTestReportApp")
+        teststatus = db.getptTestReportStatus(testname)
+        if(teststatus):
+            testrecordid = db.getptTestReportid(testname)
+            ptReportData = db.getptTestReportData(testrecordid)
+            return render_template('viewreport.html', ptReportData=ptReportData)
+        else:
+            return render_template('pendingrepo.html')
+
+    except Exception as e:
+        print(e)
+        error = str(e)
+        return render_template('viewreport.html', ptReportData=ptReportData)
+
 @app.route("/patient/<isValid>")
 def patient(isValid=False):
     if isValid:
-        return render_template('patient.html')
+        pHistory = []
+        pHistory = db.getpHistory(session['ID'])
+        return render_template('patient.html', pHistory=pHistory)
     return redirect(url_for('login'))
 
 
@@ -80,11 +151,118 @@ def staff(isValid=False):
         ID = session['ID']
         isAdmin = db.checkAdmin(ID)
         if isAdmin:
-            return redirect(url_for('admin'))
-        return render_template('Staff.html')
+            return render_template('admin.html')
+        staff_ID = ID
+        print(staff_ID)
+        profile_data = db.getStaffData(staff_ID)
+        return render_template('worker.html', data=profile_data)
     return redirect(url_for('login'))
 
+@app.route("/worker", methods=['POST'])
+def staffProfile():
+    staff_ID = request.form.get('ID')
+    print(staff_ID)
+    session["staffID"] = staff_ID
+    profile_data = db.getStaffData(staff_ID)
+    return render_template('worker.html', data=profile_data)
 
+
+@app.route("/editWorkerProfile", methods=['POST'])
+def editWorkerProfile():
+    staff_ID = session["staffID"]
+    print(staff_ID)
+    name = request.form.get('name')
+    DOB = request.form.get('DOB')
+    CNIC = request.form.get('CNIC')
+    gender = request.form.get('gender')
+    country = request.form.get('country')
+    city = request.form.get('city')
+    state = request.form.get('state')
+    streetNo = request.form.get('streetNo')
+    houseNo = request.form.get('houseNo')
+    email = request.form.get('email')
+    password = request.form.get('password')
+    phoneNo = request.form.get('phoneNo')
+    salary = request.form.get('salary')
+
+    edited = db.editStaffData(staff_ID, name, DOB, CNIC, gender, country, city, state, streetNo, houseNo, email,
+                              password, phoneNo, salary)
+    profile_data = db.getStaffData(staff_ID)
+
+    return render_template('worker.html', data=profile_data)
+
+
+#@app.route('/patientData', methods=['POST'])
+#def dataEntry():
+    # id,name,birthdate,cnic,gender,country,city,state,streetno,house no,email,password,phone number,subject,message
+ #   name = request.form.get('pname')
+  #  print(name)
+   # dateOfBirth = request.form.get('DOB')
+    #CNIC = request.form.get('p_cnic')
+    #gender = request.form.get('pgender')
+    #country = request.form.get('country')
+    #city = request.form.get('city')
+    #state = request.form.get('state')
+    #street = request.form.get('street')
+    #housenumber = request.form.get('house')
+    #email = request.form.get('email')
+    #phoneNumber = request.form.get('phoneNumber')
+    #samples = request.form.get('numberOfSamples')
+    #doctor = request.form.get('doctor')
+    #pID = 'pt' + get_random_Numeric_string(5)
+    #print(pID)
+    #session["pID"] = pID
+    #reportID = 'rep' + get_random_Numeric_string(4)
+    #print(reportID)
+    #session["reportID"] = reportID
+    #session["samples"] = samples
+    #password = get_random_alphaNumeric_string(6)
+    #print(password)
+    #inserted = db.insertPatient(pID,name, dateOfBirth, CNIC, gender, country, city, state, street, housenumber, email,
+                              #  phoneNumber,password)
+
+    #reportInserted = db.insertReportEntry(reportID,pID,doctor,samples)
+    #if (inserted):
+     #   print("Record is inserted")
+      #  return render_template('TestRecordsEntry.html')
+    #else:
+     #   profile_data = db.getStaffData(session["staffID"])
+      #  return render_template("worker.html",data=profile_data)
+
+
+
+
+
+@app.route('/recordEntry', methods=['POST'])
+def TestRecordEntry():
+    test = request.form.get('testName')
+    print(test)
+    doctor = request.form.get('doctor')
+    sampleType = request.form.get('sample')
+    testRecordID = 'tr' + get_random_Numeric_string(5)
+    print(testRecordID)
+    #session["testrecord"] = testRecordID
+    #reportID = 'rep' + get_random_Numeric_string(7)
+    #print(reportID)
+    #reportID =session["reportID"]
+    #session["samples"] = 0
+    samples = session["samples"]
+    print(samples)
+
+    inserted = db.insertTestRecord(testRecordID,session["reportID"],test,doctor,sampleType)
+    if (inserted):
+        print("Test Record is inserted")
+        #stock is deducted
+        deducted = db.deductStock(test)
+        return render_template('TestRecordsEntry.html')
+    else:
+        profile_data = db.getStaffData(session["staffID"])
+        return render_template("worker.html", data=profile_data)
+
+@app.route('/endRecords', methods=['GET','POST'])
+def endRecords():
+    profile_data = db.getStaffData(session["staffID"])
+    return render_template("worker.html", data=profile_data)
 
 @app.route("/admin/<isValid>")
 def admin(isValid=False):
@@ -93,30 +271,109 @@ def admin(isValid=False):
     return redirect(url_for('login'))
 
 
+
+#Admin Update Stock
+@app.route('/UpStock',methods=['GET','POST'])
+def UpStock():
+    return render_template('UpdateStock.html')
+
+#Admin Report Record
+@app.route('/rRecord',methods=['GET','POST'])
+def viewRecord():
+    result=db.viewReports()
+    return render_template('viewTotalReport.html',result=result)
+
+@app.route('/rDRecord',methods=['GET','POST'])
+def dReport():
+    return render_template('DeleteReport.html')
+
+
+@app.route('/aE',methods=['GET','POST'])
+def aE():
+    return render_template('AdminEmail.html')
+
+
+@app.route('/aP',methods=['GET','POST'])
+def aP():
+    return render_template('AdminPassword.html')
+
+#Admin Patient Record
+@app.route('/pRecord',methods=['GET','POST'])
+def viewPatient():
+    result=db.viewPatientRecord()
+    return render_template('viewPatient.html',result=result)
+
+@app.route('/pDRecord',methods=['GET','POST'])
+def dpatient():
+    return render_template('DeletePatientRecord.html')
+
+
+#Admin Staff Record
+@app.route('/viewStaff', methods=['GET'])
+def viewStaffMethod():
+    result=db.getStaffRecord()
+    return render_template('viewStaffMembers.html',result=result)
+
+@app.route('/DStaff',methods=['GET','POST'])
+def dStaff():
+    return render_template('DeleteStaff.html')
+
+
+#admin Account
+@app.route('/Account',methods=['GET','POST'])
+def SAccount():
+    return render_template('Account.html')
+
+
+@app.route('/adminEmail',methods=['GET','POST'])
+def AdminEmail():
+    cAEmail=request.form.get('cAEmail')
+    nAEmail=request.form.get('nAEmail')
+    id = db.getAdminID1(cAEmail)
+    if(id!=None):
+        result=db.updateAdminEmail(id,nAEmail)
+        if(result==True):
+            flash("Admin email is Successfully Changed")
+            return render_template('Admin.html')
+        else:
+            flash("Admin email is NOT Changed")
+            return render_template('Admin.html')
+    flash("Admin email is NOT Changed")
+    return render_template('Admin.html')
+
+
+@app.route('/adminPassword',methods=['GET','POST'])
+def AdminPassword():
+    cAPassword=request.form.get('cAPassword')
+    nAPassword=request.form.get('nAPassword')
+    id = db.getAdminID(cAPassword)
+    if(id!=None):
+        result=db.updateAdminPassword(id,nAPassword)
+        if(result==True):
+            flash("Admin password is Successfully Changed")
+            return render_template('Admin.html')
+        else:
+            flash("Admin password is NOT Changed")
+            return render_template('Admin.html')
+    flash("Admin password is NOT Changed")
+    return render_template('Admin.html')
+
+
+
+
 @app.route("/404")
 def failure():
     return render_template('404.html')
 
 
 
-@app.route("/WorkerProfile", methods=['GET','POST'])
-def new():
-    name = request.form.get('q4_fullName4');
-    print(name)
-    return render_template('new.html', name=name)
-
-
-@app.route("/worker")
-def workerProfile():
-    return render_template('Worker_Profile.html')
-
-
 @app.route("/patientRecord")
-def patientRecord():
-    return render_template('patientRecord.html')
+def patientRecordEntry():
+    return render_template('Patient_Data_Entry.html')
 
 
-@app.route('/feedback', methods=['POST'])
+
+@app.route("/feedback", methods=['POST'])
 def feedback():
     db=None
     error = None
@@ -131,26 +388,32 @@ def feedback():
                        app.config["DATABASE"])
         result1 = db.getPatientID2(name, email)
         print("Aik lgani hai chal ja")
-        if (result1 != None):
+        if (result1 != False):
             print("Aik lgani hai chal ja 2")
-            result2 = db.insertFeedback
+            result2 = db.insertFeedback(result1,subject,message)
             if (result2 != True):
                 flash("Feedback Not Sent!")
-                return redirect(url_for('index'))
         else:
             flash("Your feedback have been Sent!")
-            return redirect(url_for('index'))
-
     except Exception as e:
         print(e)
         error = str(e)
         return redirect(url_for('index', _anchor='feedBack'))
+    finally:
+        return redirect(url_for('index'))
 
 
 @app.route('/checkFeedbacks', methods=['GET', 'POST'])
 def pFeedBack():
     result = db.showFeedBack()
     return render_template('feedback.html', result=result)
+
+
+@app.route('/adminPage', methods=['GET', 'POST'])
+def adminView():
+    return render_template('admin.html')
+
+
 
 
 @app.route('/stockView', methods=['GET', 'POST'])
@@ -173,7 +436,7 @@ def updateStock():
 @app.route('/deleteStaff', methods=['GET', 'POST'])
 def deleteStaff():
     staffID = request.form.get('staffID')
-    cnic = request.form.get('cnic')
+    cnic = request.form.get('sCnic')
     error = None
     id = db.getStaffID(staffID, cnic)
     if (id == None):
@@ -182,28 +445,54 @@ def deleteStaff():
         db.deleteStaff(id)
         error = 'successfull'
         flash("Staff record is successfully removed")
-    return render_template('index.html', error=error)
+    return render_template('admin.html', error=error)
 
 
 @app.route('/deletePatient', methods=['GET','POST'])
 def deletePatient():
-    patientID = request.form.get('pid')
-    pName = request.form.get('pname')
+    patientID = request.form.get('patientID')
+    pName = request.form.get('pName')
     error = None
     id = db.getPatientID(patientID)
     if (id == None):
         flash("This id is not exit")
     else:
-        db.deletePatient(id)
+        db.deletePatient(patientID)
         error = 'successfull'
         flash("Patient record is successfully removed")
-    return render_template('index.html', error=error)
+    return render_template('admin.html', error=error)
+
+
+
+
+@app.route('/deleteReport', methods=['GET','POST'])
+def deleteReport():
+    patientID = request.form.get('patientID')
+    reportID = request.form.get('reportID')
+    error = None
+    id = db.getPatientID(patientID)
+    if (id == None):
+        flash("This id is not exit")
+    else:
+        db.deleteReport(patientID,reportID)
+        error = 'successfull'
+        flash("Patient report is successfully removed")
+    return render_template('admin.html', error=error)
+
 
 @app.route('/dropsession')
 def drop_session():
     session.pop('ID',None)
     return redirect(url_for('login'))
 
+#for random numbers
+def get_random_alphaNumeric_string(stringLength=8):
+    lettersAndDigits = string.ascii_letters + string.digits
+    return ''.join((random.choice(lettersAndDigits) for i in range(stringLength)))
+
+def get_random_Numeric_string(stringLength=8):
+    Digits = string.digits
+    return ''.join((random.choice(Digits) for i in range(stringLength)))
 
 if __name__ == '__main__':
    app.run(debug=True)

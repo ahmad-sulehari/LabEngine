@@ -58,34 +58,30 @@
               
             <div class="collapse navbar-collapse navbar-right" id="myNavbar">
               <ul class="nav navbar">
-                <li class="active"><a href="#banner" style="text-decoration: none; color: white">Home</a></li>
+              <li class="active"><a href="/adminPage" style="text-decoration: none; color: white">Home</a></li>
    <li class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" style="text-decoration: none; color: white" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         Reports
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="#patient.html">REPORTS RECORD</a>
-          <a class="dropdown-item" href="#UpdateReport.html">UPDATE RECORD</a>
-          <a class="dropdown-item" href="#DeleteReport.html">DELETE RECORD</a>
+          <a class="dropdown-item" href="/rRecord">REPORTS RECORD</a>
+          <a class="dropdown-item" href="/rDRecord">DELETE RECORD</a>
         </div>
       </li>
                   
                  <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" style="text-decoration: none; color: white" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false" >Patient</a>
     <div class="dropdown-menu">
-      <a class="dropdown-item" href="#">Patient Records</a>
-      <a class="dropdown-item" href="#">Update Records</a>
-      <a class="dropdown-item" href="#DeletePatientRecord.html">Delete Reports</a>
+      <a class="dropdown-item" href="/pRecord">Patient Records</a>
+      <a class="dropdown-item" href="/pDRecord">Delete Records</a>
       <div class="dropdown-divider"></div>
  </div> </li>  
                  <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" style="text-decoration: none; color: white" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
         Staff</a>
       <div class="dropdown-menu">
-      <a class="dropdown-item" href="#">Staff Record</a>
-      <a class="dropdown-item" href="#">Update Staff</a>
-      <a class="dropdown-item" href="#">Add Staff</a>
-      <a class="dropdown-item" href="DeleteStaff.html">Delete Staff Record</a>
+      <a class="dropdown-item" href="/viewStaff">Staff Record</a>
+          <a class="dropdown-item" href="/DStaff">Delete Staff Record</a>
       <div class="dropdown-divider"></div>
         
         </div> </li>
@@ -94,17 +90,15 @@
         STOCK</a>
       <div class="dropdown-menu">
       <a class="dropdown-item" href="/stockView">STOCK Record</a>
-      <a class="dropdown-item" href="UpdateStock.html">Update STOCK</a>
+      <a class="dropdown-item" href="/UpStock">Update STOCK</a>
       <div class="dropdown-divider"></div>
         
         </div> </li>
                  
-                <li class=""><a href="#contact" style="text-decoration: none; color: white">Accounts</a></li>
+                <li class=""><a href="/Account" style="text-decoration: none; color: white">Accounts</a></li>
                   <li class=""><a href="/checkFeedbacks" style="text-decoration: none; color: white">FeedBack</a></li>
-                <li class="" style="background-color:cadetblue"><a href="{{ url_for('login') }} "style="text-decoration: none; color: white">Logout</a></li>
-
+                <li class="" style="background-color:cadetblue"><a href="/dropsession "style="text-decoration: none; color: white">Logout</a></li>
               </ul>
-                
 
             </div>
           </div>
