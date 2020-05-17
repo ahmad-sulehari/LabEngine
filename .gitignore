@@ -1,4 +1,5 @@
 /Nadra_Login
-/.idea
+.idea
 config.py
 __pycache__
+*.pyc
