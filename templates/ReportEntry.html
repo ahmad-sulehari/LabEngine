@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" type="text/css" href="style.com">
+    <link rel="stylesheet" type="text/css" href="static/css/reportDataBootstrap.css">
+    <!-- Bootstrap core CSS -->
+
+
+    <!-- Custom styles for this template -->
+<style>
+body {
+  background-image: url("static/img/pt4.jpg");
+  style = no repeat;
+}
+
+</style>
+</head>
+{{data}}
+<body class="bg-light">
+ <nav class="navbar navbar-expand-md bg-transparent navbar-dark">
+  <a class="navbar-brand " href="patient.html"> <img src="static/img/Logo_for_LIGHT_Background.png" alt="Logo" style="width:120px; text-align:center"></a>
+  </nav>
+
+ <div class="container">
+  <div class="py-5 text-center">
+    <img class="d-block mx-auto mb-4" src="/docs/4.4/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+    <h1>Patient Report Entry</h1>
+  </div>
+
+  <div class="row">
+     <div class="col-md-8 order-md-1">
+      <h3 class="mb-3">General Information</h3>
+      <form class="needs-validation" method="post" action="/enterReportData">
+
+           <div class="row">
+           <div class="col-md-4 mb-3">
+           <b><label for="country">Patient ID</label></b>
+	       <input type="text" class="form-control" name = "pid" id="pid" placeholder="">
+           </div>
+           <div class="col-md-4 mb-3">
+           <b><label for="state">Staff ID</label></b>
+           <input type="text" class="form-control" name = "sid" id="sid" placeholder="">
+           </div>
+           <div class="col-md-4 mb-3">
+           <b><label for="city">Report ID</label></b>
+           <input type="text" class="form-control" name = "rid" id="rid" placeholder="">
+           </div>
+           <div class="col-md-4 mb-3">
+           <b><label for="city">Test Record ID</label></b>
+           <input type="text" class="form-control" name = "trid" id="trid" placeholder="">
+           </div>
+           <div class="col-md-4 mb-3">
+           <b><label for="city">Date</label></b>
+           <input type="date" class="form-control" name = "date" id="date" placeholder="">
+           </div>
+           </div>
+
+
+           <div class="row">
+           <div class="col-md-6 mb-3">
+           <b><label for="patientname">Protien</label></b>
+           <input input type="number" step="any" class="form-control" name = "protein" id="protein" placeholder="" value="">
+           </div>
+           <div class="col-md-6 mb-3">
+           <b><label for="patientid">Albumin</label></b>
+           <input input type="number" step="any" class="form-control" name = "albumin"  id="albumin" placeholder="" value="">
+           </div>
+           </div>
+
+           <div class="row">
+           <div class="col-md-6 mb-3">
+           <b><label for="patientname">Globulin</label></b>
+           <input input type="number" step="any" class="form-control" name = "globulin" id="globulin" placeholder="" value="">
+           </div>
+           <div class="col-md-6 mb-3">
+           <b><label for="patientid">Bilirubin</label></b>
+           <input input type="number" step="any" class="form-control" name = "bilirubin"  id="bilirubin" placeholder="" value="">
+           </div>
+           </div>
+
+           <div class="row">
+           <div class="col-md-6 mb-3">
+           <b><label for="patientname">AST</label></b>
+           <input input type="number" step="any" class="form-control" name = "ast" id="ast" placeholder="" value="">
+           </div>
+           <div class="col-md-6 mb-3">
+           <b><label for="patientid">ALT</label></b>
+           <input input type="number" step="any" class="form-control" name = "alt"  id="alt" placeholder="" value="">
+           </div>
+           </div>
+
+           <div class="row">
+           <div class="col-md-6 mb-3">
+           <b><label for="patientname">ALP</label></b>
+           <input input type="number" step="any" class="form-control" name = "alp" id="alp" placeholder="" value="">
+           </div>
+           <div class="col-md-6 mb-3">
+           <b><label for="patientid">RBC</label></b>
+           <input input type="number" step="any" class="form-control" name = "rbc"  id="rbc" placeholder="" value="">
+           </div>
+           </div>
+
+           <div class="row">
+           <div class="col-md-6 mb-3">
+           <b><label for="patientname">WBC</label></b>
+           <input input type="number" step="any" class="form-control" name = "wbc" id="wbc" placeholder="" value="">
+           </div>
+           <div class="col-md-6 mb-3">
+           <b><label for="patientid">Platelet</label></b>
+           <input input type="number" step="any" class="form-control" name = "platelet"  id="platelet" placeholder="" value="">
+           </div>
+           </div>
+
+           <div class="row">
+           <div class="col-md-6 mb-3">
+           <b><label for="patientname">Hemoglobin</label></b>
+           <input input type="number" step="any" class="form-control" name = "hemoglobin" id="hemoglobin" placeholder="" value="">
+           </div>
+           <div class="col-md-6 mb-3">
+           <b><label for="patientid">Urea</label></b>
+           <input input type="number" step="any" class="form-control" name = "urea"  id="urea" placeholder="" value="">
+           </div>
+           </div>
+
+           <div class="row">
+           <div class="col-md-6 mb-3">
+           <b><label for="patientname">Creatinine</label></b>
+           <input input type="number" step="any" class="form-control" name = "creatinine" id="creatinine" placeholder="" value="">
+           </div>
+           <div class="col-md-6 mb-3">
+           <b><label for="patientid">Uric Acid</label></b>
+           <input input type="number" step="any" class="form-control" name = "uricAcid"  id="uricAcid" placeholder="" value="">
+           </div>
+           </div>
+
+            <div class="d-block my-3">
+           <!--<h3 class="mb-3">Enter Report</h3>-->
+           <div class="form-group">
+           <input type="submit" value="Enter Report" class="btn btn-primary">
+           </div>
+           </div>
+
+      </form>
+    </div>
+ </div>
+</div>
+
+
+<style>
+.footer {
+  position:;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: white;
+  color: blaack;
+  text-align: center;
+}
+</style>
+<div class="footer">
+<footer class="my-5 pt-5 text-muted text-center text-small">
+    <p class="mb-1"><b>&copy; 1998-2020 Lab Engine</b></p>
+    <ul class="list-inline">
+      <li class="list-inline-item"><a href="#">Privacy</a></li>
+      <li class="list-inline-item"><a href="#">Terms</a></li>
+      <li class="list-inline-item"><a href="#">Support</a></li>
+    </ul>
+  </footer>
+</div>
+<script src="js/reportDataBootstrap.min.js"></script>
+
+</body>
+</html>
