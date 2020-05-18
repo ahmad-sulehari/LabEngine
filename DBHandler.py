@@ -552,7 +552,7 @@ class DBHandler:
             db.commit()
             return insert
 
-    def getptTestReportid(self, testname):
+    def getptTestReportid(self, reportid, testname):
         db = None
         cursor = None
         try:
@@ -560,8 +560,8 @@ class DBHandler:
             db = pymysql.connect(host=self.DATABASE_IP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
                                  database=self.DATABASE)
             cur = db.cursor()
-            sql = 'select testRecordID from testrecord where testName=%s'
-            args = (testname)
+            sql = 'select testRecordID from testrecord where reportID = %s AND testName=%s'
+            args = (reportid, testname)
             cur.execute(sql, args)
             testRecordID = cur.fetchone()
             print("DBHandlergetptTestReportid1")
@@ -572,6 +572,7 @@ class DBHandler:
             if (db != None):
                 db.commit()
             return testRecordID
+
 
     def getStaffData(self, staff_ID):
         db = None

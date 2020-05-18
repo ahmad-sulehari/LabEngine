@@ -148,6 +148,7 @@ def patient(isValid=False):
     if isValid:
         pHistory = []
         pHistory = db.getpHistory(session['ID'])
+        print(pHistory)
         return render_template('patient.html', pHistory=pHistory)
     return redirect(url_for('login'))
 
