@@ -31,7 +31,7 @@ def login():
         else:
             return render_template('login.html')
     else:
-        if g.ID.startswith('pt'):
+        if g.ID.startswith('PT'):
             return redirect(url_for('patient',isValid=True))
         else:
             return redirect(url_for('staff',isValid=True))
@@ -93,6 +93,18 @@ def validate():
 #            error = str(e)
 #            return render_template('patient.html', pHistory=pHistory)
 #
+def isloggedIn():
+    if g.ID:
+        if g.ID == 'PT':
+            return 1
+        elif g.ID == 'ST':
+            isAdmin = db.checkAdmin(g.ID)
+            if isAdmin:
+                return 2
+            else:
+                return 3
+
+
 
 @app.route("/report",methods=['POST','GET'])
 def showReport():
@@ -107,7 +119,7 @@ def showReport():
     except Exception as e:
         print(e)
         error = str(e)
-        return render_template('report.html')
+        return redirect(url_for('failure'))
 
 @app.route("/viewReport",methods=['POST','GET'])
 def getrepid():
@@ -162,8 +174,7 @@ def staff(isValid=False):
 @app.route("/worker", methods=['POST'])
 def staffProfile():
     staff_ID = request.form.get('ID')
-    print(staff_ID)
-    session["staffID"] = staff_ID
+    session["ID"] = staff_ID
     profile_data = db.getStaffData(staff_ID)
     return render_template('worker.html', data=profile_data)
 
@@ -219,7 +230,26 @@ def dataEntry():
     password = get_random_alphaNumeric_string(6)
     print(password)
     inserted = db.insertPatient(pID,name, dateOfBirth, CNIC, gender, country, city, state, street, housenumber, email,
-                                phoneNumber,password)
+                               phoneNumber,password)
+
+    reportInserted = db.insertReportEntry(reportID,pID,doctor,samples)
+    if (inserted):
+       print("Record is inserted")
+       my_email = os.getenv('BDMS_EMAIL')
+       email_passwd = os.getenv('BDMS_MAIL_PASSWORD')
+       with smtplib.SMTP('smtp.gmail.com',587) as smtp:
+           smtp.ehlo()
+           smtp.starttls()
+           smtp.ehlo()
+           smtp.login(my_email,email_passwd)
+           subject = 'Lab Engine: Low on Stock'
+           body = 'your ID is '+pID+'\nPassword: '+password
+           msg =  f'subject: {subject}\n\n{body}'
+           smtp.sendmail(my_email,'bcsf17m036@pucit.edu.pk',msg)
+       return render_template('TestRecordsEntry.html')
+    else:
+       profile_data = db.getStaffData(session["ID"])
+       return render_template("worker.html",data=profile_data)
 
     reportInserted = db.insertReportEntry(reportID,pID,doctor)
     if (inserted):

@@ -518,8 +518,8 @@ class DBHandler:
             args = (id)
             done = cur.execute(sql, args)
             tuple = cur.fetchone()
-            designation = tuple[0]
             if done:
+                designation = tuple[0]
                 if designation == 'admin':
                     valid = True
         except Exception as e:
@@ -971,6 +971,17 @@ class DBHandler:
             if (
                     noFMasks < 40 or noFGloves < 40 or noFContainers < 40 or noFSwabs < 40 or noFSyringes < 40 or noFGlassWare < 40 or noFSanitizors < 40 or noFCottonPkg < 40 or noFReagents < 40):
                 print("notify admin")
+                my_email = os.getenv('BDMS_EMAIL')
+                email_passwd = os.getenv('BDMS_MAIL_PASSWORD')
+                with smtplib.SMTP('smtp.gmail.com',587) as smtp:
+                    smtp.ehlo()
+                    smtp.starttls()
+                    smtp.ehlo()
+                    smtp.login(my_email,email_passwd)
+                    subject = 'Lab Engine: Low on Stock'
+                    body = 'You are Low on stock please visit Labengine for furthur details.\n'+noFMasks+'\n'+noFGloves+'\n'+ noFContainers+'\n'+noFSwabs+'\n'+noFSyringes+'\n'+noFGlassWare+'\n'+ noFSanitizors+'\n'+ noFCottonPkg+'\n'+ noFReagents
+                    msg =  f'subject: {subject}\n\n{body}'
+                    smtp.sendmail(my_email,'bcsf17m036@pucit.edu.pk',msg)
             deducted = True
         except Exception as e:
             print(e)
