@@ -636,6 +636,28 @@ class DBHandler:
                 db.commit()
             return result
 
+    def getpatientreportID(self, pid):
+        db = None
+        try:
+            print("getpatientreportID")
+            db = pymysql.connect(host=self.DATABASE_IP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
+                                 database=self.DATABASE)
+            cur = db.cursor()
+            print("a gya")
+            sql = "Select reportID from report where patientID = %s"
+            print("a gya")
+            args = (pid)
+            cur.execute(sql, args)
+            reportID = cur.fetchone()
+            print(reportID)
+        except Exception as e:
+            print(e)
+            print("some error")
+        finally:
+            if (db != None):
+                db.commit()
+            return reportID
+
     def viewReports(self):
         db = None
         cursor = None

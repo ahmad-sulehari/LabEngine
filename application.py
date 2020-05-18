@@ -119,7 +119,8 @@ def getrepid():
         print("getTestReportApp")
         teststatus = db.getptTestReportStatus(testname)
         if(teststatus):
-            testrecordid = db.getptTestReportid(testname)
+            reportid = db.getpatientreportID(session["ID"])
+            testrecordid = db.getptTestReportid(reportid, testname)
             ptReportData = db.getptTestReportData(testrecordid)
             return render_template('viewreport.html', ptReportData=ptReportData)
         else:
