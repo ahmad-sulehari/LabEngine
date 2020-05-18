@@ -122,7 +122,8 @@ class DBHandler:
         insert = False
         try:
             db = pymysql.connect(host=self.DATABASE_IP, port=3306, user=self.DB_USER, passwd=self.DB_PASSWORD,
-                                 database=self.DATABASE)            cur = db.cursor()
+                                 database=self.DATABASE)
+            cur = db.cursor()
             sql = 'update stock set itemQuantity =40 '
             cur.execute(sql)
             insert = True

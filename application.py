@@ -1,5 +1,5 @@
 from flask import Flask,render_template,url_for,request,redirect,g,session,Blueprint,flash
-
+import os,smtplib
 from DBHandler import DBHandler
 
 import random
@@ -232,7 +232,7 @@ def dataEntry():
     inserted = db.insertPatient(pID,name, dateOfBirth, CNIC, gender, country, city, state, street, housenumber, email,
                                phoneNumber,password)
 
-    reportInserted = db.insertReportEntry(reportID,pID,doctor,samples)
+    reportInserted = db.insertReportEntry(reportID,pID,doctor)
     if (inserted):
        print("Record is inserted")
        my_email = os.getenv('BDMS_EMAIL')
