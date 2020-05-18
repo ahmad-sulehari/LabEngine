@@ -242,27 +242,17 @@ def dataEntry():
            smtp.starttls()
            smtp.ehlo()
            smtp.login(my_email,email_passwd)
-           subject = 'Lab Engine: Low on Stock'
+           subject = 'Lab Engine:'
            body = 'your ID is '+pID+'\nPassword: '+password
            msg =  f'subject: {subject}\n\n{body}'
            smtp.sendmail(my_email,'bcsf17m036@pucit.edu.pk',msg)
-       return render_template('TestRecordsEntry.html')
+       allTests = db.getAllTests()
+       patientTests = db.getPatientTests(session["reportID"])
+       tests = db.getNewTests(allTests, patientTests)
+       return render_template('TestRecordsEntry.html', tests=tests)
     else:
        profile_data = db.getStaffData(session["ID"])
        return render_template("worker.html",data=profile_data)
-
-    reportInserted = db.insertReportEntry(reportID,pID,doctor)
-    if (inserted):
-        print("Record is inserted")
-        allTests = db.getAllTests()
-        patientTests = db.getPatientTests(session["reportID"])
-        tests = db.getNewTests(allTests, patientTests)
-        return render_template('TestRecordsEntry.html',tests = tests)
-    else:
-        profile_data = db.getStaffData(session["ID"])
-        return render_template("worker.html",data=profile_data)
-
-
 
 
 @app.route('/recordEntry', methods=['POST'])

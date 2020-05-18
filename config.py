@@ -1,5 +1,5 @@
 DATABASE_IP = 'localhost'
 DB_USER = 'root'
-DB_PASSWORD = '1234'
+DB_PASSWORD = 'uzma2504'
 DATABASE = 'labengine'
 SECRET_KEY = 'A0Zr98j/3yX R~XHH!jmN]LWX/,?RT'
