@@ -31,7 +31,7 @@ def login():
         else:
             return render_template('login.html')
     else:
-        if g.ID.startswith('pt'):
+        if g.ID.startswith('PT'):
             return redirect(url_for('patient',isValid=True))
         else:
             return redirect(url_for('staff',isValid=True))
@@ -93,6 +93,18 @@ def validate():
 #            error = str(e)
 #            return render_template('patient.html', pHistory=pHistory)
 #
+def isloggedIn():
+    if g.ID:
+        if g.ID == 'PT':
+            return 1
+        elif g.ID == 'ST':
+            isAdmin = db.checkAdmin(g.ID)
+            if isAdmin:
+                return 2
+            else:
+                return 3
+
+
 
 @app.route("/report",methods=['POST','GET'])
 def showReport():
@@ -107,7 +119,7 @@ def showReport():
     except Exception as e:
         print(e)
         error = str(e)
-        return render_template('report.html')
+        return redirect(url_for('failure'))
 
 @app.route("/viewReport",methods=['POST','GET'])
 def getrepid():
@@ -161,15 +173,14 @@ def staff(isValid=False):
 @app.route("/worker", methods=['POST'])
 def staffProfile():
     staff_ID = request.form.get('ID')
-    print(staff_ID)
-    session["staffID"] = staff_ID
+    session["ID"] = staff_ID
     profile_data = db.getStaffData(staff_ID)
     return render_template('worker.html', data=profile_data)
 
 
 @app.route("/editWorkerProfile", methods=['POST'])
 def editWorkerProfile():
-    staff_ID = session["staffID"]
+    staff_ID = session["ID"]
     print(staff_ID)
     name = request.form.get('name')
     DOB = request.form.get('DOB')
@@ -192,42 +203,53 @@ def editWorkerProfile():
     return render_template('worker.html', data=profile_data)
 
 
-#@app.route('/patientData', methods=['POST'])
-#def dataEntry():
-    # id,name,birthdate,cnic,gender,country,city,state,streetno,house no,email,password,phone number,subject,message
- #   name = request.form.get('pname')
-  #  print(name)
-   # dateOfBirth = request.form.get('DOB')
-    #CNIC = request.form.get('p_cnic')
-    #gender = request.form.get('pgender')
-    #country = request.form.get('country')
-    #city = request.form.get('city')
-    #state = request.form.get('state')
-    #street = request.form.get('street')
-    #housenumber = request.form.get('house')
-    #email = request.form.get('email')
-    #phoneNumber = request.form.get('phoneNumber')
-    #samples = request.form.get('numberOfSamples')
-    #doctor = request.form.get('doctor')
-    #pID = 'pt' + get_random_Numeric_string(5)
-    #print(pID)
-    #session["pID"] = pID
-    #reportID = 'rep' + get_random_Numeric_string(4)
-    #print(reportID)
-    #session["reportID"] = reportID
-    #session["samples"] = samples
-    #password = get_random_alphaNumeric_string(6)
-    #print(password)
-    #inserted = db.insertPatient(pID,name, dateOfBirth, CNIC, gender, country, city, state, street, housenumber, email,
-                              #  phoneNumber,password)
+@app.route('/patientData', methods=['POST'])
+def dataEntry():
+    id,name,birthdate,cnic,gender,country,city,state,streetno,house no,email,password,phone number,subject,message
+   name = request.form.get('pname')
+   print(name)
+   dateOfBirth = request.form.get('DOB')
+    CNIC = request.form.get('p_cnic')
+    gender = request.form.get('pgender')
+    country = request.form.get('country')
+    city = request.form.get('city')
+    state = request.form.get('state')
+    street = request.form.get('street')
+    housenumber = request.form.get('house')
+    email = request.form.get('email')
+    phoneNumber = request.form.get('phoneNumber')
+    samples = request.form.get('numberOfSamples')
+    doctor = request.form.get('doctor')
+    pID = 'pt' + get_random_Numeric_string(5)
+    print(pID)
+    session["pID"] = pID
+    reportID = 'rep' + get_random_Numeric_string(4)
+    print(reportID)
+    session["reportID"] = reportID
+    session["samples"] = samples
+    password = get_random_alphaNumeric_string(6)
+    print(password)
+    inserted = db.insertPatient(pID,name, dateOfBirth, CNIC, gender, country, city, state, street, housenumber, email,
+                               phoneNumber,password)
 
-    #reportInserted = db.insertReportEntry(reportID,pID,doctor,samples)
-    #if (inserted):
-     #   print("Record is inserted")
-      #  return render_template('TestRecordsEntry.html')
-    #else:
-     #   profile_data = db.getStaffData(session["staffID"])
-      #  return render_template("worker.html",data=profile_data)
+    reportInserted = db.insertReportEntry(reportID,pID,doctor,samples)
+    if (inserted):
+       print("Record is inserted")
+       my_email = os.getenv('BDMS_EMAIL')
+       email_passwd = os.getenv('BDMS_MAIL_PASSWORD')
+       with smtplib.SMTP('smtp.gmail.com',587) as smtp:
+           smtp.ehlo()
+           smtp.starttls()
+           smtp.ehlo()
+           smtp.login(my_email,email_passwd)
+           subject = 'Lab Engine: Low on Stock'
+           body = 'your ID is '+pID+'\nPassword: '+password
+           msg =  f'subject: {subject}\n\n{body}'
+           smtp.sendmail(my_email,'bcsf17m036@pucit.edu.pk',msg)
+       return render_template('TestRecordsEntry.html')
+    else:
+       profile_data = db.getStaffData(session["ID"])
+       return render_template("worker.html",data=profile_data)
 
 
 
@@ -256,12 +278,12 @@ def TestRecordEntry():
         deducted = db.deductStock(test)
         return render_template('TestRecordsEntry.html')
     else:
-        profile_data = db.getStaffData(session["staffID"])
+        profile_data = db.getStaffData(session["ID"])
         return render_template("worker.html", data=profile_data)
 
 @app.route('/endRecords', methods=['GET','POST'])
 def endRecords():
-    profile_data = db.getStaffData(session["staffID"])
+    profile_data = db.getStaffData(session["ID"])
     return render_template("worker.html", data=profile_data)
 
 @app.route("/admin/<isValid>")
