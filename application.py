@@ -1,5 +1,5 @@
 from flask import Flask,render_template,url_for,request,redirect,g,session,Blueprint,flash
-import os,smtplib
+
 from DBHandler import DBHandler
 
 import random
@@ -152,10 +152,10 @@ def patient(isValid=False):
 
 
 
-@app.route("/admin", methods=['POST'])
-def dataEntry():
-    if request.method == 'POST':
-        return render_template('Patient_Data_Entry.html')
+#@app.route("/admin", methods=['POST'])
+#def dataEntry():
+#   if request.method == 'POST':
+#        return render_template('Patient_Data_Entry.html')
 
 @app.route("/Staff/<isValid>")
 def staff(isValid=False):
@@ -202,13 +202,12 @@ def editWorkerProfile():
 
     return render_template('worker.html', data=profile_data)
 
-
 @app.route('/patientData', methods=['POST'])
 def dataEntry():
-    id,name,birthdate,cnic,gender,country,city,state,streetno,house no,email,password,phone number,subject,message
-   name = request.form.get('pname')
-   print(name)
-   dateOfBirth = request.form.get('DOB')
+    # id,name,birthdate,cnic,gender,country,city,state,streetno,house no,email,password,phone number,subject,message
+    name = request.form.get('pname')
+    print(name)
+    dateOfBirth = request.form.get('DOB')
     CNIC = request.form.get('p_cnic')
     gender = request.form.get('pgender')
     country = request.form.get('country')
@@ -218,7 +217,7 @@ def dataEntry():
     housenumber = request.form.get('house')
     email = request.form.get('email')
     phoneNumber = request.form.get('phoneNumber')
-    samples = request.form.get('numberOfSamples')
+    #samples = request.form.get('numberOfSamples')
     doctor = request.form.get('doctor')
     pID = 'pt' + get_random_Numeric_string(5)
     print(pID)
@@ -226,7 +225,7 @@ def dataEntry():
     reportID = 'rep' + get_random_Numeric_string(4)
     print(reportID)
     session["reportID"] = reportID
-    session["samples"] = samples
+    #session["samples"] = samples
     password = get_random_alphaNumeric_string(6)
     print(password)
     inserted = db.insertPatient(pID,name, dateOfBirth, CNIC, gender, country, city, state, street, housenumber, email,
@@ -251,6 +250,16 @@ def dataEntry():
        profile_data = db.getStaffData(session["ID"])
        return render_template("worker.html",data=profile_data)
 
+    reportInserted = db.insertReportEntry(reportID,pID,doctor)
+    if (inserted):
+        print("Record is inserted")
+        allTests = db.getAllTests()
+        patientTests = db.getPatientTests(session["reportID"])
+        tests = db.getNewTests(allTests, patientTests)
+        return render_template('TestRecordsEntry.html',tests = tests)
+    else:
+        profile_data = db.getStaffData(session["ID"])
+        return render_template("worker.html",data=profile_data)
 
 
 
@@ -263,28 +272,65 @@ def TestRecordEntry():
     sampleType = request.form.get('sample')
     testRecordID = 'tr' + get_random_Numeric_string(5)
     print(testRecordID)
-    #session["testrecord"] = testRecordID
-    #reportID = 'rep' + get_random_Numeric_string(7)
-    #print(reportID)
-    #reportID =session["reportID"]
-    #session["samples"] = 0
-    samples = session["samples"]
-    print(samples)
+    session["testrecordID"] = testRecordID
 
     inserted = db.insertTestRecord(testRecordID,session["reportID"],test,doctor,sampleType)
     if (inserted):
         print("Test Record is inserted")
         #stock is deducted
         deducted = db.deductStock(test)
-        return render_template('TestRecordsEntry.html')
+        updated = db.updateReport(session["reportID"], session["pID"])
+        allTests = db.getAllTests()
+        patientTests = db.getPatientTests(session["reportID"])
+        tests = db.getNewTests(allTests,patientTests)
+        return render_template('TestRecordsEntry.html',tests = tests)
+
     else:
         profile_data = db.getStaffData(session["ID"])
         return render_template("worker.html", data=profile_data)
 
-@app.route('/endRecords', methods=['GET','POST'])
+@app.route('/endRecords', methods=['POST'])
 def endRecords():
-    profile_data = db.getStaffData(session["ID"])
+    print(session['ID'])
+    updated = db.enterNoSamples(session["reportID"])
+    profile_data = db.getStaffData(session['ID'])
     return render_template("worker.html", data=profile_data)
+
+@app.route('/reportEntry')
+def reportEntry():
+    print(session['ID'])
+    return render_template("ReportEntry.html",data = "")
+
+@app.route('/enterReportData', methods=['POST'])
+def reportDataEntry():
+    print(session['ID'])
+    patientID = request.form.get('pid')
+    staffID = request.form.get('sid')
+    reportID = request.form.get('rid')
+    testrecordID = request.form.get('trid')
+    date = request.form.get('date')
+    protein = request.form.get('protein')
+    albumin = request.form.get('albumin')
+    globulin = request.form.get('globulin')
+    bilirubin = request.form.get('bilirubin')
+    ast = request.form.get('ast')
+    alt = request.form.get('alt')
+    alp = request.form.get('alp')
+    rbc = request.form.get('rbc')
+    wbc = request.form.get('wbc')
+    platelet = request.form.get('platelet')
+    hemoglobin = request.form.get('hemoglobin')
+    urea = request.form.get('urea')
+    creatinine = request.form.get('creatinine')
+    uricAcid = request.form.get('uricAcid')
+    inserted = db.enterTestRecordReport(testrecordID,reportID,staffID,patientID,date,protein,albumin,globulin,bilirubin,ast,alt,alp,rbc,wbc,platelet,hemoglobin,urea,creatinine,uricAcid)
+    updated = db.updateTestRecordStatus(testrecordID)
+    if(inserted):
+        profile_data = db.getStaffData(session['ID'])
+        return render_template("worker.html", data=profile_data)
+    else:
+        return render_template("ReportEntry.html",data="Report Not entered. Any of the IDs don't exist")
+
 
 @app.route("/admin/<isValid>")
 def admin(isValid=False):
@@ -434,7 +480,6 @@ def pFeedBack():
 @app.route('/adminPage', methods=['GET', 'POST'])
 def adminView():
     return render_template('admin.html')
-
 
 
 
